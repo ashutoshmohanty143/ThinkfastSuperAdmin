@@ -77,19 +77,14 @@ export default function SideNav() {
                       aria-controls="navbarVerticalMenuPagesUsersMenu"
                     >
                       <i className="bi-people nav-icon"></i>
-                      <span className="nav-link-title">Manage Pages</span>
+                      <span className="nav-link-title">Manage Stores</span>
                     </a>
                     <div
                       id="navbarVerticalMenuPagesUsersMenu"
                       className="nav-collapse collapse "
                       data-bs-parent="#navbarVerticalMenuPagesMenu"
                     >
-                      <NavLink className="nav-link" to="/users">Users</NavLink>
-                      <NavLink className="nav-link" to="/offers">Offers</NavLink>
-                      <NavLink className="nav-link" to="/zones">Zones</NavLink>
-                      <NavLink className="nav-link" to="/slots">Slots</NavLink>
-                      <NavLink className="nav-link" to="/discounts">Discounts</NavLink>
-                      <NavLink className="nav-link" to="/orders">Orders</NavLink>
+                      <NavLink className="nav-link" to="/stores">View Stores</NavLink>
                     </div>
                   </div>
                 

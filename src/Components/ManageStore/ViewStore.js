@@ -6,7 +6,7 @@ import Header from '../Common/Header';
 import SideNav from '../Common/SideNav';
 import Footer from '../Common/Footer';
 
-export default class Users extends Component {
+export default class ViewStore extends Component {
 
   handleDeleteRecord = () =>{
     alert("Record Deleted Successfully");
@@ -23,10 +23,10 @@ export default class Users extends Component {
               <div className="page-header">
                 <div className="row align-items-center mb-3">
                   <div className="col-md mb-2 mb-md-0">
-                    <h1 className="page-header-title">Users </h1>
+                    <h1 className="page-header-title">Stores </h1>
                   </div>
                   <div className="col-md-auto">
-                    <Link className="btn btn-primary" to="/adduser">Add User</Link>
+                    <Link className="btn btn-primary" to="/addstore">Add Store</Link>
                   </div>
 
                 </div>
