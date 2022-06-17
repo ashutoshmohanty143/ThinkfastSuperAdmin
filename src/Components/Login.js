@@ -1,74 +1,98 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import '../Common.css';
+import { Navigate } from 'react-router-dom';
 import Dashboard from './Dashboard';
-
 
 class Login extends Component {
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = {
-      loginParams: {
-        email:"",
-        password:""
-      },
-      formErrors:{}
-    };   
+      fields: {},
+      errors: {},
+      users: []
+    }
+    //this.authLogin = this.authLogin.bind(this);
+
+
   };
 
-  handleFormFieldsChange = (event) =>{
-    let loginParamsNew = { ...this.state.loginParams };
-    let val = event.target.value;
-    loginParamsNew[event.target.name] = val;
-    this.setState({
-      loginParams: loginParamsNew
-    });
-  }
-
-  formValidate(){
-    let email = this.state.loginParams.email;
-    let password = this.state.loginParams.password;
-    let formErrors = {};
-    let formIsValid = true;
-
-
-    if(email === ""){
-      formIsValid = false;
-      formErrors['emailErr'] = "Email can't be blanked";
-    }
-    if(password === ""){
-      formIsValid = false;
-      formErrors['passwordErr'] = "Password can't be blanked";
-    }
-    
-    this.setState({ formErrors: formErrors });    
-    return formIsValid;
+  authLogin() {
+    console.log(1);
+    // axios.get("https://jsonplaceholder.typicode.com/users")
+    //   .then(response => {
+    //     this.setState({
+    //       users: response.data
+    //     })
+    //   });
   }
 
 
-  submitLoginForm = e => {
+  submitLoginForm(e) {
+
     e.preventDefault();
-    let email = this.state.loginParams.email;
-    let password = this.state.loginParams.password;
-      if (this.formValidate()) {
-        const apiUrl = 'http://localhost:4000/users';
-        const loginData = { email, password };
+    let i = 0;
+    const data = new FormData(e.target);
 
-        axios.get(apiUrl).then(response => {
-          const resusername = response.data[0].username;
-          const respassword = response.data[0].password;
-          if (email == resusername && password == respassword) {
-            sessionStorage.setItem("userToken", response.data[0].token);
-            window.location.href = "/dashboard";
-          } else {
-            console.log('Login Error.....!');
-          }
-        })
-      
+    let tboxEmail = document.getElementById('textboxEmail');
+    let errEmail = document.getElementById('errorEmail');
+    let errPass = document.getElementById('errorPassword');
+    let tboxPass = document.getElementById('textboxPassword')
+
+    if (data.get('email') === "") {
+      errEmail.classList.remove('d-none');
+      tboxEmail.classList.add('errorBorder');
+      i++;
     } else {
+      errEmail.classList.add('d-none');
+      tboxEmail.classList.remove('errorBorder');
+    }
+
+
+    if (data.get('password') === "") {
+      errPass.classList.remove('d-none');
+      tboxPass.classList.add('errorBorder');
+      i++;
+    } else {
+      errPass.classList.add('d-none');
+      tboxPass.classList.remove('errorBorder');
+    }
+
+    if (i > 0) {
       return false;
+    } else {
+      const apiUrl = 'http://localhost:3001/api/auth/login';
+      const loginData = {
+        username: data.get('email'),
+        password: data.get('password')
+      }
+      axios.post(apiUrl, loginData).then(response => {
+        console.log('response', response);
+        console.log('response1', response.data.data.accesToken);
+        sessionStorage.setItem("userToken", response.data.data.accesToken);
+        sessionStorage.setItem("userData", response.data.data);
+
+        if (sessionStorage.getItem('userToken')) {
+          window.location.href = "/dashboard";
+        } else {
+          console.log('error');
+        }
+
+        //user details & jwt token needs to be set in session storage
+
+      }).catch(error => {
+        console.log("error", error)
+        //this.setState({start:false})
+      })
+
+
+
+      //console.log(tboxEmail.value)
+      //this.authLogin();
+      //return true;
+      //window.location.href = "/dashboard";
     }
   }
 
@@ -88,15 +112,12 @@ class Login extends Component {
   }
 
   render() {
-    const { emailErr, passwordErr } = this.state.formErrors;
+    //this.authLogin();
     return (
-      
       <>
-        
         {sessionStorage.getItem('userToken') ?
           window.location.href = "/dashboard" :
 
-          
           <div className="d-flex align-items-center min-h-100">
 
             <main id="content" role="main" className="main pt-0" style={{ paddingLeft: 0 }}>
@@ -189,18 +210,10 @@ class Login extends Component {
 
                         <div className="mb-4 text-start">
                           <label className="form-label" htmlFor="textboxEmail">Your email</label>
-                          <input 
-                                  type="text" 
-                                  className={`form-control form-control-lg ${emailErr ? 'errorBorder' : ''}`}
-                                  name="email" 
-                                  id="textboxEmail" 
-                                  onChange={this.handleFormFieldsChange}
-                                  tabIndex="1" 
-                                  placeholder="email@address.com" 
-                          />
-                          {/* <span id="errorEmail" className="errorMsg d-none">Please enter your email address.</span> */}
-                          {emailErr && <span className='errorMsg'>{emailErr}</span>}
-
+                          <input type="text" className="form-control form-control-lg "
+                            name="email" id="textboxEmail"
+                            tabIndex="1" placeholder="email@address.com" />
+                          <span id="errorEmail" className="errorMsg d-none">Please enter your email address.</span>
                         </div>
 
 
@@ -214,19 +227,13 @@ class Login extends Component {
                           </label>
 
                           <div className="input-group input-group-merge">
-                            <input  type="password" 
-                                    className={`form-control form-control-lg ${passwordErr ? 'errorBorder' : ''}`} 
-                                    onChange={this.handleFormFieldsChange}
-                                    name="password" 
-                                    id="textboxPassword" 
-                                    placeholder="8+ characters required" 
-                            />
+                            <input type="password" className="form-control form-control-lg"
+                              name="password" id="textboxPassword" placeholder="8+ characters required" />
                             <a className="input-group-append input-group-text">
                               <i className="bi-eye-slash" onClick={this.handlepassword} id="passIcon"></i>
                             </a>
                           </div>
-                          {/* <span id="errorPassword" className="errorMsg d-none">Please enter password.</span> */}
-                          {passwordErr && <span className='errorMsg'>{passwordErr}</span>}
+                          <span id="errorPassword" className="errorMsg d-none">Please enter password.</span>
                         </div>
 
 
