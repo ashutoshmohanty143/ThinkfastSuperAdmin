@@ -40,36 +40,11 @@ export default class AddStore extends Component {
       errors["storeName"] = "";
     }
 
-    // if (typeof fields["storeName"] !== "undefined") {
-    //   if (!fields["storeName"].match(/^[a-zA-Z]+$/)) {
-    //     formIsValid = false;
-    //     errors["storeName"] = "Only letters";
-    //   }
-    // }
-
     //Email
     if (!fields["email"]) {
       formIsValid = false;
       errors["email"] = "Email Cannot be empty";
     }
-
-    // if (typeof fields["email"] !== "undefined") {
-    //   let lastAtPos = fields["email"].lastIndexOf("@");
-    //   let lastDotPos = fields["email"].lastIndexOf(".");
-
-    //   if (
-    //     !(
-    //       lastAtPos < lastDotPos &&
-    //       lastAtPos > 0 &&
-    //       fields["email"].indexOf("@@") == -1 &&
-    //       lastDotPos > 2 &&
-    //       fields["email"].length - lastDotPos > 2
-    //     )
-    //   ) {
-    //     formIsValid = false;
-    //     errors["email"] = "Email is not valid";
-    //   }
-    // }
 
     //Phone
     if (!fields["phone"]) {
@@ -77,34 +52,22 @@ export default class AddStore extends Component {
       errors["phone"] = "Phone Cannot be empty";
     }
 
-    // if (typeof fields["phone"] !== "undefined") {
-    //   if (!fields["phone"].match(/^[0-9\b]+$/)) {
-    //     formIsValid = false;
-    //     errors["phone"] = "Please enter only numbers";
-    //   } else if(fields["phone"].length != 10){
-    //     formIsValid = false;
-    //     errors["phone"] = "Please provide valid phone number";
-    //   }
-    // }
-
-
     //Password
-    if (!fields["password"]) {
-      formIsValid = false;
-      errors["password"] = "Password Cannot be empty";
-    }
-
+    if(this.passwordInputHandler){
+      if (!fields["password"]) {
+        formIsValid = false;
+        errors["password"] = "Password Cannot be empty";
+      }
+    } 
+    
     //Confirm Password
-    if (!fields["confirmPassword"]) {
-      formIsValid = false;
-      errors["confirmPassword"] = "Confirm Password Cannot be empty";
+    if(this.confirmPasswordInputHandler){
+      if (!fields["confirmPassword"]) {
+        formIsValid = false;
+        errors["confirmPassword"] = "Confirm Password Cannot be empty";
+      }
     }
-
-    if(fields["confirmPassword"] != fields["password"]){
-      formIsValid = false;
-      errors["confirmPassword"] = "Confirm Password & Password doesn't match.";
-    }
-
+    
     //Shopify Store Url
     if (!fields["shopifyStoreUrl"]) {
       formIsValid = false;
@@ -128,9 +91,6 @@ export default class AddStore extends Component {
       formIsValid = false;
       errors["shopifyApiSecretKey"] = "Shopify Api Secret Key Cannot be empty";
     }
-
-
-
 
     this.setState({ errors: errors });
     return formIsValid;
@@ -183,12 +143,32 @@ export default class AddStore extends Component {
   
   //Password Validating
   passwordInputHandler = e =>{
-    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-    if (!strongRegex.test(this.state.fields["password"])) {
+    let val = false;
+    var pass = e.target.value;
+    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,16})");
+    if (!strongRegex.test(pass)) {
+      val = false;
       this.state.errors["password"] = "Please give valid password";
     } else {
+      val = true;
       this.state.errors["password"] = "";
     }
+    return val;
+  }
+
+  //Password Validating
+  confirmPasswordInputHandler = e =>{
+    let val = false;
+    var pass = this.state.fields['password'];
+    let cpass = e.target.value; 
+    if (cpass != pass) {
+      val = false;
+      this.state.errors["confirmPassword"] = "Confirm Password & Password doesn't match.";
+    } else {
+      val = true;
+      this.state.errors["confirmPassword"] = "";
+    }
+    return val;
   }
 
 
@@ -329,7 +309,8 @@ export default class AddStore extends Component {
                                 <label htmlFor="confirmPassword" className="form-label"> Confirm Password <span className="mandatory-field">*</span></label>
                                 <div className="input-group input-group-merge">
                                   <input type="password" className="form-control" name="confirmPassword" id="confirmPassword"
-                                    placeholder="Confirm Password" onChange={this.handleFormFieldsChange} />
+                                    placeholder="Confirm Password" onChange={this.handleFormFieldsChange} 
+                                    onInput={this.confirmPasswordInputHandler} />
                                   <a className="input-group-append input-group-text">
                                     <i className="bi-eye-slash" onClick={this.handlepassword} id="passIcon1"></i>
                                   </a>
