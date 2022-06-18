@@ -105,7 +105,7 @@ export default class AddStore extends Component {
     } else {
       this.state.errors["email"] = "";
     }
-  }
+  }  
 
   // Phone Masking  
   mask = (value) => {
