@@ -53,12 +53,13 @@ export default class AddStore extends Component {
     }
 
     //Password
-    if(this.passwordInputHandler){
-      if (!fields["password"]) {
+    if(this.passwordInputHandler == false){
         formIsValid = false;
-        errors["password"] = "Password Cannot be empty";
-      }
-    } 
+        errors["password"] = "Password invalid";
+    } else if (!fields["password"]) {
+      formIsValid = false;
+      errors["password"] = "Password Cannot be empty";
+    }
     
     //Confirm Password
     if(this.confirmPasswordInputHandler){
@@ -159,15 +160,22 @@ export default class AddStore extends Component {
   //Password Validating
   confirmPasswordInputHandler = e =>{
     let val = false;
+    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,16})");
     var pass = this.state.fields['password'];
-    let cpass = e.target.value; 
-    if (cpass != pass) {
+    let cpass = e.target.value;
+    if (!strongRegex.test(cpass)) {
       val = false;
-      this.state.errors["confirmPassword"] = "Confirm Password & Password doesn't match.";
+      this.state.errors["confirmPassword"] = "Please give valid password";
     } else {
-      val = true;
-      this.state.errors["confirmPassword"] = "";
-    }
+      // val = true;
+      if (cpass != pass) {
+        val = false;
+        this.state.errors["confirmPassword"] = "Confirm Password & Password doesn't match.";
+      } else {
+        val = true;
+        this.state.errors["confirmPassword"] = "";
+      }
+    } 
     return val;
   }
 
