@@ -6,3 +6,6 @@
 .errorBorder{
   border:1px solid red !important;
 }
+.mandatory-field{
+  color: red;
+}
