@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import swal from 'sweetalert';
+import '../../css/AddStore.css';
 // import ReactTooltip from "react-tooltip";
-import { Parser } from "html-to-react";
+// import { Parser } from "html-to-react";
 
 import Header from "../Common/Header";
-import SideNav from "../Common/SideNav";
+import SideNav from "../Common/SideNav";    
 import Footer from "../Common/Footer";
 
 export default class AddStore extends Component {
@@ -166,18 +167,18 @@ export default class AddStore extends Component {
     return output;
   };
   phoneInputHandler = (e) => {
-        let oldValue;
-        let el = e.target,
-              newValue = el.value
-        ;
-        newValue = this.unmask(newValue);
-        let regex = new RegExp(/^\d{0,10}$/g);
-        if(newValue.match(regex)) {
-          newValue = this.mask(newValue);
-          el.value = newValue;
-        } else {
-          el.value = oldValue;
-        }
+    let oldValue;
+    let el = e.target,
+            newValue = el.value
+    ;
+    newValue = this.unmask(newValue);
+    let regex = new RegExp(/^\d{0,10}$/g);
+    if(newValue.match(regex)) {
+        newValue = this.mask(newValue);
+        el.value = newValue;
+    } else {
+        el.value = oldValue;
+    }
   };
   
   //Password Validating
@@ -284,7 +285,7 @@ export default class AddStore extends Component {
                                 <label htmlFor="storeName" className="form-label"> Store Name <span className="mandatory-field">*</span> </label>
                                 <input type="text" className="form-control" name="storeName" id="storeName"
                                   placeholder="Store Name" onChange={this.handleFormFieldsChange} />
-                                <span style={{ color: "red" }}>{this.state.errors["storeName"]}</span>
+                                <span className="mandatory-field">{this.state.errors["storeName"]}</span>
                               </div>
                             </div>
 
@@ -293,7 +294,7 @@ export default class AddStore extends Component {
                                 <label htmlFor="email" className="form-label"> Email ID <span className="mandatory-field">*</span></label>
                                 <input type="text" className="form-control" name="email" id="email"
                                   placeholder="Email ID" onChange={this.handleFormFieldsChange} onInput={this.emailInputHandler} />
-                                <span style={{ color: "red" }}>{this.state.errors["email"]}</span>
+                                <span className="mandatory-field">{this.state.errors["email"]}</span>
                               </div>
                             </div>
 
@@ -302,10 +303,9 @@ export default class AddStore extends Component {
                               <div className="mb-4">
                                 <label htmlFor="phone" className="form-label"> Phone No. <span className="mandatory-field">*</span></label>
                                 <div className="input-group">
-                                  <input type="text" className="form-control" name="phone" id="phone"
-                                    placeholder="Phone No." onChange={this.handleFormFieldsChange} onInput={this.phoneInputHandler} maxLength={12}/>
+                                  <input type="text" className="form-control" name="phone" id="phone" placeholder="Phone No." onChange={this.handleFormFieldsChange} onInput={this.phoneInputHandler} maxLength={12}/>
                                 </div>
-                                <span style={{ color: "red" }}>{this.state.errors["phone"]}</span>
+                                <span className="mandatory-field">{this.state.errors["phone"]}</span>
                               </div>
                             </div>
 
@@ -313,33 +313,14 @@ export default class AddStore extends Component {
                               <div className="mb-4">
                                 <label htmlFor="password" className="form-label"> Password <span className="mandatory-field">*</span> </label>
                                 <div className="input-group input-group-merge">
-                                {/* <span data-tip data-for="pass_tooltip" className="input-group-text"><i className="bi bi-info-circle"></i></span>
-                                <ReactTooltip id="pass_tooltip" place="top">
-                                <p>Password must have</p>
-                                <ul>
-                                  <li>Be at least 8 characters</li>
-                                  <li>Have at least one upper case letter</li>
-                                  <li>Have at least one lower case letter</li>
-                                  <li>Have at least one number</li>
-                                  <li>Have at least one symbol</li>
-                                </ul>
-                                </ReactTooltip> */}
-                                {/* <span data-bs-toggle="pass_tooltip" data-bs-placement="top" title="<p>Password must have</p>
-                                <ul>
-                                  <li>Be at least 8 characters</li>
-                                  <li>Have at least one upper case letter</li>
-                                  <li>Have at least one lower case letter</li>
-                                  <li>Have at least one number</li>
-                                  <li>Have at least one symbol</li>
-                                </ul>" className="input-group-text"><i className="bi bi-info-circle"></i></span> */}
-                                 <span data-bs-toggle="pass_tooltip" data-bs-placement="top" title={`Password must have \n * Be at least 8 characters \n * Have at least one upper case letter \n * Have at least one lower case letter \n * Have at least one number \n * Have at least one symbol`} className="input-group-text"><i className="bi bi-info-circle"></i></span>
-                                  <input type="password" className="form-control" name="password" id="password"
-                                    placeholder="Password" onChange={this.handleFormFieldsChange} onInput={this.passwordInputHandler} />
-                                  <a className="input-group-append input-group-text">
+
+                                <input type="password" className="form-control passwoprd-field" name="password" id="password" placeholder="Password" onChange={this.handleFormFieldsChange} onInput={this.passwordInputHandler} />
+                                <a className="input-group-append input-group-text password-div">
                                     <i className="bi-eye-slash" onClick={this.handlepassword} id="passIcon"></i>
-                                  </a>
+                                </a>
+                                <span data-bs-toggle="pass_tooltip" data-bs-placement="top" title={`Password must have \n * Be at least 8 characters \n * Have at least one upper case letter \n * Have at least one lower case letter \n * Have at least one number \n * Have at least one symbol`} className="input-group-text tooltip-custom"><i className="bi bi-info-circle"></i></span>
                                 </div>
-                                <span style={{ color: "red" }}>{this.state.errors["password"]}</span>
+                                <span className="mandatory-field">{this.state.errors["password"]}</span>
                               </div>
                             </div>
 
@@ -353,7 +334,7 @@ export default class AddStore extends Component {
                                     <i className="bi-eye-slash" onClick={this.handlepassword} id="passIcon1"></i>
                                   </a>
                                 </div>
-                                <span style={{ color: "red" }}>{this.state.errors["confirmPassword"]}</span>
+                                <span className="mandatory-field">{this.state.errors["confirmPassword"]}</span>
                               </div>
                             </div>
 
@@ -361,7 +342,7 @@ export default class AddStore extends Component {
                               <div className="mb-4">
                                 <label htmlFor="shopifyStoreUrl" className="form-label"> Shopify Store Url <span className="mandatory-field">*</span></label>
                                 <input type="text" className="form-control" name="shopifyStoreUrl" id="shopifyStoreUrl" placeholder="Shopify Store Url" onChange={this.handleFormFieldsChange} />
-                                <span style={{ color: "red" }}>{this.state.errors["shopifyStoreUrl"]}</span>
+                                <span className="mandatory-field">{this.state.errors["shopifyStoreUrl"]}</span>
                               </div>
                             </div>
 
@@ -370,7 +351,7 @@ export default class AddStore extends Component {
                                 <label htmlFor="shopifyApiAccessToken" className="form-label"> Shopify Api Access Token <span className="mandatory-field">*</span></label>
                                 <input type="text" className="form-control" name="shopifyApiAccessToken" id="shopifyApiAccessToken"
                                   placeholder="Shopify Api Access Token" onChange={this.handleFormFieldsChange} />
-                                <span style={{ color: "red" }}>{this.state.errors["shopifyApiAccessToken"]}</span>
+                                <span className="mandatory-field">{this.state.errors["shopifyApiAccessToken"]}</span>
                               </div>
                             </div>
 
@@ -379,7 +360,7 @@ export default class AddStore extends Component {
                                 <label htmlFor="shopifyApiKey" className="form-label"> Shopify Api Key <span className="mandatory-field">*</span></label>
                                 <input type="text" className="form-control" name="shopifyApiKey" id="shopifyApiKey"
                                   placeholder="Shopify Api Key" onChange={this.handleFormFieldsChange} />
-                                <span style={{ color: "red" }}>{this.state.errors["shopifyApiKey"]}</span>
+                                <span className="mandatory-field">{this.state.errors["shopifyApiKey"]}</span>
                               </div>
                             </div>
 
@@ -388,7 +369,7 @@ export default class AddStore extends Component {
                                 <label htmlFor="shopifyApiSecretKey" className="form-label"> Shopify Api Secret Key <span className="mandatory-field">*</span></label>
                                 <input type="text" className="form-control" name="shopifyApiSecretKey" id="shopifyApiSecretKey"
                                   placeholder="Shopify Api Secret Key" onChange={this.handleFormFieldsChange} />
-                                <span style={{ color: "red" }}>{this.state.errors["shopifyApiSecretKey"]}</span>
+                                <span className="mandatory-field">{this.state.errors["shopifyApiSecretKey"]}</span>
                               </div>
                             </div>
                             

@@ -1,0 +1,11 @@
+.tooltip-custom {
+    border: none;
+    cursor: pointer;
+    color: #07e910;
+}
+.passwoprd-field{
+    padding-left: 20px!important;
+}
+.password-div{
+    margin-right: 30px;
+}
