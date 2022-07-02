@@ -4,12 +4,9 @@ import Dashboard from './Components/Dashboard';
 import PageNotFound from './Components/Common/PageNotFound';
 import ViewStore from './Components/ManageStore/ViewStore';
 import AddStore from './Components/ManageStore/AddStore';
+import UpdateStore from './Components/ManageStore/UpdateStore';
 
 function App() {
-  const setSession = function setSessionValue(){
-    let session = false;
-    return session;
-  }
   return (
     <div className="App" >
       <BrowserRouter>
@@ -20,6 +17,7 @@ function App() {
             <Route exact path="/dashboard" element={<Dashboard />} />
             <Route exact path="/stores" element={<ViewStore />} />
             <Route exact path="/addstore" element={<AddStore />} />
+            <Route exact path="/updatestore/:id" element={<UpdateStore />} />
             <Route exact path="*" element={<PageNotFound />} />
           
         </Routes>

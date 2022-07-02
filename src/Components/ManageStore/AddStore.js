@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import swal from 'sweetalert';
+import { WithRouter } from '../Common/WithRouter';
 import '../../css/AddStore.css';
-// import ReactTooltip from "react-tooltip";
-// import { Parser } from "html-to-react";
 
 import Header from "../Common/Header";
 import SideNav from "../Common/SideNav";    
 import Footer from "../Common/Footer";
 
-export default class AddStore extends Component {
+import ApiServices from '../Common/ApiServices';
+import CommonMethods from '../Common/CommonMethods';
+
+class AddStore extends Component {
   constructor(props) {
     super(props);
 
@@ -26,8 +28,6 @@ export default class AddStore extends Component {
   }
 
   formValidate(){
-    //console.log(1)
-    //return true;
     let fields = this.state.fields;
     let errors = {};
     let formIsValid = true;
@@ -53,44 +53,47 @@ export default class AddStore extends Component {
     }
 
     //Password
-    if(this.passwordInputHandler == false){
-        formIsValid = false;
-        errors["password"] = "Password invalid";
-    } else if (!fields["password"]) {
+    if (!fields["password"]) {
       formIsValid = false;
       errors["password"] = "Password Cannot be empty";
     }
     
     //Confirm Password
-    if(this.confirmPasswordInputHandler){
-      if (!fields["confirmPassword"]) {
-        formIsValid = false;
-        errors["confirmPassword"] = "Confirm Password Cannot be empty";
-      }
+    if (!fields["confirmPassword"]) {
+      formIsValid = false;
+      errors["confirmPassword"] = "Confirm Password Cannot be empty";
     }
     
     //Shopify Store Url
     if (!fields["shopifyStoreUrl"]) {
       formIsValid = false;
       errors["shopifyStoreUrl"] = "Shopify Store Url Cannot be empty";
+    } else {
+      errors["shopifyStoreUrl"] = "";
     }
 
     //Shopify Api Access Token
     if (!fields["shopifyApiAccessToken"]) {
       formIsValid = false;
       errors["shopifyApiAccessToken"] = "Shopify Api Access Token Cannot be empty";
+    } else {
+      errors["shopifyApiAccessToken"] = "";
     }
 
     //Shopify Api Key
     if (!fields["shopifyApiKey"]) {
       formIsValid = false;
       errors["shopifyApiKey"] = "Shopify Api Key Cannot be empty";
+    } else {
+      errors["shopifyApiKey"] = "";
     }
 
     //Shopify Api Secret Key
     if (!fields["shopifyApiSecretKey"]) {
       formIsValid = false;
       errors["shopifyApiSecretKey"] = "Shopify Api Secret Key Cannot be empty";
+    } else {
+      errors["shopifyApiSecretKey"] = "";
     }
 
     this.setState({ errors: errors });
@@ -98,100 +101,83 @@ export default class AddStore extends Component {
   }
 
   // Email Validating
-  emailInputHandler = e =>{
-    const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    if (!regex.test(this.state.fields["email"])) {
+  emailInputHandler = (e) =>{
+    if (!CommonMethods.emailValidator(e.target.value)) {
       this.state.errors["email"] = "Please give valid email";
     } else {
       this.state.errors["email"] = "";
     }
-  }  
+  }   
 
   // Phone Masking  
-  mask = (value) => {
-    let output = [];
-      for(let i = 0; i < value.length; i++) {
-
-          if(i === 3){
-            output.push(" ");
-          }
-          if(i === 6){
-            output.push(" ");
-          }
-            output.push(value[i]);
-
-        }
-      return output.join("");
-  };
-  unmask = (value) => {
-    let output = value.replace(new RegExp(/[^\d]/, 'g'), '');
-    return output;
-  };
-  phoneInputHandler = (e) => {
-    let oldValue;
-    let el = e.target,
-            newValue = el.value
-    ;
-    newValue = this.unmask(newValue);
-    let regex = new RegExp(/^\d{0,10}$/g);
-    if(newValue.match(regex)) {
-        newValue = this.mask(newValue);
-        el.value = newValue;
+  phoneInputHandler = e => {
+    if(!CommonMethods.phoneMasking(e)){
+      this.state.errors["phone"] = "Please Give Only Numbers";
     } else {
-        el.value = oldValue;
+      this.state.errors["phone"] = "";
     }
-  };
+  }
+  
   
   //Password Validating
-  passwordInputHandler = e =>{
-    let val = false;
-    var pass = e.target.value;
-    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,16})");
-    if (!strongRegex.test(pass)) {
-      val = false;
+  passwordInputHandler = e =>{    
+    if (!CommonMethods.passwordValidator(e.target.value)) {
       this.state.errors["password"] = "Please give valid password";
     } else {
-      val = true;
       this.state.errors["password"] = "";
     }
-    return val;
   }
 
-  //Password Validating
+  //Confirm Password Validating
   confirmPasswordInputHandler = e =>{
-    let val = false;
-    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,16})");
     var pass = this.state.fields['password'];
     let cpass = e.target.value;
-    if (!strongRegex.test(cpass)) {
-      val = false;
+    if (!CommonMethods.passwordValidator(cpass)) {
       this.state.errors["confirmPassword"] = "Please give valid password";
     } else {
-      // val = true;
       if (cpass != pass) {
-        val = false;
         this.state.errors["confirmPassword"] = "Confirm Password & Password doesn't match.";
       } else {
-        val = true;
         this.state.errors["confirmPassword"] = "";
       }
     } 
-    return val;
   }
 
-
-  submitForm = e => {
-    e.preventDefault();
-    //window.location.href = "/abc"
-    //console.log(11)
-    if(this.formValidate()) {
-      //console.log(1)
-      swal("Thank you!", "Your store added successfully!!!", "success");
-      // this.setState = {fields : {}};
-      
+  submitForm = event => {
+    event.preventDefault();
+    if(this.formValidate()) {   
+      let { storeName, email, phone, password, shopifyStoreUrl, shopifyApiAccessToken, shopifyApiKey, shopifyApiSecretKey } = this.state.fields;
+      const formData = {
+          "collection" : "stores",
+          "data": {
+                  "storeName": storeName,
+                  "email": email,
+                  "phone": phone,
+                  "password": password,
+                  "shopifyStoreUrl": shopifyStoreUrl,
+                  "shopifyApiAccessToken": shopifyApiAccessToken,
+                  "shopifyApiKey": shopifyApiKey,
+                  "shopifyApiSecretKey": shopifyApiSecretKey
+          },
+          "meta" : {
+              "duplicate" : ['storeName'],
+              "multiInsert": false
+          }
+      };   
+      ApiServices.AddRecord(formData).then(response => {    
+          if(response.status == 200 && response.data.status){
+              swal("Thank you!", "Store added successfully!!!", "success").then((value) => {
+                  if(value){
+                      this.props.navigate('/stores');
+                  }
+              });
+          }           
+      }).catch(error => {
+          console.log(error);
+      });; 
     } else {
-      //alert("Form has errors.");
-    }
+      console.log("Form Validation Error");
+    }  
   }
 
   handlepassword = e => {
@@ -272,7 +258,7 @@ export default class AddStore extends Component {
                               <div className="mb-4">
                                 <label htmlFor="storeName" className="form-label"> Store Name <span className="mandatory-field">*</span> </label>
                                 <input type="text" className="form-control" name="storeName" id="storeName"
-                                  placeholder="Store Name" onChange={this.handleFormFieldsChange} />
+                                  placeholder="Store Name" onChange={this.handleFormFieldsChange} onInput={this.snvalidate} />
                                 <span className="mandatory-field">{this.state.errors["storeName"]}</span>
                               </div>
                             </div>
@@ -385,3 +371,4 @@ export default class AddStore extends Component {
     );
   }
 }
+export default WithRouter(AddStore);
