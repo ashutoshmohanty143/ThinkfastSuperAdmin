@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import '../Common.css';
-import { Navigate } from 'react-router-dom';
-import Dashboard from './Dashboard';
 
 class Login extends Component {
 
@@ -59,8 +57,13 @@ class Login extends Component {
         password: data.get('password')
       }
       axios.post(apiUrl, formData).then(response => {
+<<<<<<< HEAD
         //console.log('response', response.data.data.accessToken);
         /*console.log('response1', JSON.stringify(response.data.data));*/
+=======
+        // console.log('response', JSON.stringify(response.data.data));
+        // console.log('response1', response.data.data.accessToken);
+>>>>>>> 5ee3d4b1eb0c90b0b5b46281fd98551a7238a89a
         sessionStorage.setItem("userToken", response.data.data.accessToken);
         sessionStorage.setItem("userData", JSON.stringify(response.data.data));
 
@@ -69,9 +72,6 @@ class Login extends Component {
         } else {
           console.log('error');
         }
-
-        //user details & jwt token needs to be set in session storage
-
       }).catch(error => {
         console.log("error", error)
         //this.setState({start:false})

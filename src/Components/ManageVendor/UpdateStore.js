@@ -11,7 +11,7 @@ import Footer from "../Common/Footer";
 import ApiServices from '../Common/ApiServices';
 import CommonMethods from '../Common/CommonMethods';
 
-class AddVendor extends Component {
+class UpdateStore extends Component {
   constructor(props) {
     super(props);
 
@@ -20,6 +20,20 @@ class AddVendor extends Component {
       errors: {},
     };
   }
+
+    componentDidMount() {
+        const collectionName = "stores";
+        const path = window.location.pathname;
+        const id = path.split('/')[2];
+        ApiServices.GetSingleRecordById(id, collectionName)
+            .then((response) => {
+                this.setState({ fields: response.data.data });
+            })
+            .catch((error) => {
+                console.log("error", error);
+            });
+    }
+
 
   handleFormFieldsChange = event => {
     let fields = this.state.fields;
@@ -65,28 +79,36 @@ class AddVendor extends Component {
     }
     
     //Shopify Store Url
-    // if (!fields["shopifyStoreUrl"]) {
-    //   formIsValid = false;
-    //   errors["shopifyStoreUrl"] = "Shopify Store Url Cannot be empty";
-    // }
+    if (!fields["shopifyStoreUrl"]) {
+      formIsValid = false;
+      errors["shopifyStoreUrl"] = "Shopify Store Url Cannot be empty";
+    } else {
+      errors["shopifyStoreUrl"] = "";
+    }
 
     //Shopify Api Access Token
-    // if (!fields["shopifyApiAccessToken"]) {
-    //   formIsValid = false;
-    //   errors["shopifyApiAccessToken"] = "Shopify Api Access Token Cannot be empty";
-    // }
+    if (!fields["shopifyApiAccessToken"]) {
+      formIsValid = false;
+      errors["shopifyApiAccessToken"] = "Shopify Api Access Token Cannot be empty";
+    } else {
+      errors["shopifyApiAccessToken"] = "";
+    }
 
     //Shopify Api Key
-    // if (!fields["shopifyApiKey"]) {
-    //   formIsValid = false;
-    //   errors["shopifyApiKey"] = "Shopify Api Key Cannot be empty";
-    // }
+    if (!fields["shopifyApiKey"]) {
+      formIsValid = false;
+      errors["shopifyApiKey"] = "Shopify Api Key Cannot be empty";
+    } else {
+      errors["shopifyApiKey"] = "";
+    }
 
     //Shopify Api Secret Key
-    // if (!fields["shopifyApiSecretKey"]) {
-    //   formIsValid = false;
-    //   errors["shopifyApiSecretKey"] = "Shopify Api Secret Key Cannot be empty";
-    // }
+    if (!fields["shopifyApiSecretKey"]) {
+      formIsValid = false;
+      errors["shopifyApiSecretKey"] = "Shopify Api Secret Key Cannot be empty";
+    } else {
+      errors["shopifyApiSecretKey"] = "";
+    }
 
     this.setState({ errors: errors });
     return formIsValid;
@@ -139,8 +161,11 @@ class AddVendor extends Component {
     event.preventDefault();
     if(this.formValidate()) {   
       let { storeName, email, phone, password, shopifyStoreUrl, shopifyApiAccessToken, shopifyApiKey, shopifyApiSecretKey } = this.state.fields;
+      let path = window.location.pathname;
+      let id = path.split('/')[2];
       const formData = {
           "collection" : "stores",
+          "id": id,
           "data": {
                   "storeName": storeName,
                   "email": email,
@@ -152,17 +177,20 @@ class AddVendor extends Component {
                   "shopifyApiSecretKey": shopifyApiSecretKey
           },
           "meta" : {
-              "duplicate" : ['storeName'],
-              "multiInsert": false
+              "duplicate" : ['']
           }
       };   
-      ApiServices.AddRecord(formData).then(response => {    
+      ApiServices.UpdateRecord(formData).then(response => {    
           if(response.status == 200 && response.data.status){
-              swal("Thank you!", "Store added successfully!!!", "success").then((value) => {
-                  if(value){
-                      this.props.navigate('/stores');
-                  }
-              });
+            swal({
+                title: "Thank you!",
+                text: `Store Updated successfully!!!`,
+                type: "success",
+            }).then((value) => {
+                if (value) {
+                    this.props.navigate('/stores');
+                }
+            });
           }           
       }).catch(error => {
           console.log(error);
@@ -201,6 +229,7 @@ class AddVendor extends Component {
   }
 
   render() {
+    let { storeName, email, phone, password, shopifyStoreUrl, shopifyApiAccessToken, shopifyApiKey, shopifyApiSecretKey } = this.state.fields;
     return (
       <>
         {sessionStorage.getItem("userToken") ? (
@@ -238,7 +267,7 @@ class AddVendor extends Component {
                     <div className="card mb-3 mb-lg-5">
                       <div className="card-header">
                         <h4 className="card-header-title">
-                          Add Vendor
+                          Add Store Information
                         </h4>
                       </div>
 
@@ -250,7 +279,8 @@ class AddVendor extends Component {
                               <div className="mb-4">
                                 <label htmlFor="storeName" className="form-label"> Store Name <span className="mandatory-field">*</span> </label>
                                 <input type="text" className="form-control" name="storeName" id="storeName"
-                                  placeholder="Store Name" onChange={this.handleFormFieldsChange} onInput={this.snvalidate} />
+                                  placeholder="Store Name" onChange={this.handleFormFieldsChange} 
+                                  onInput={this.snvalidate} value={storeName} />
                                 <span className="mandatory-field">{this.state.errors["storeName"]}</span>
                               </div>
                             </div>
@@ -259,7 +289,8 @@ class AddVendor extends Component {
                               <div className="mb-4">
                                 <label htmlFor="email" className="form-label"> Email ID <span className="mandatory-field">*</span></label>
                                 <input type="text" className="form-control" name="email" id="email"
-                                  placeholder="Email ID" onChange={this.handleFormFieldsChange} onInput={this.emailInputHandler} />
+                                  placeholder="Email ID" onChange={this.handleFormFieldsChange} 
+                                  onInput={this.emailInputHandler} value={email} />
                                 <span className="mandatory-field">{this.state.errors["email"]}</span>
                               </div>
                             </div>
@@ -269,7 +300,9 @@ class AddVendor extends Component {
                               <div className="mb-4">
                                 <label htmlFor="phone" className="form-label"> Phone No. <span className="mandatory-field">*</span></label>
                                 <div className="input-group">
-                                  <input type="text" className="form-control" name="phone" id="phone" placeholder="Phone No." onChange={this.handleFormFieldsChange} onInput={this.phoneInputHandler} maxLength={12}/>
+                                  <input type="text" className="form-control" name="phone" id="phone" 
+                                  placeholder="Phone No." onChange={this.handleFormFieldsChange} 
+                                  onInput={this.phoneInputHandler} maxLength={12} value={phone} />
                                 </div>
                                 <span className="mandatory-field">{this.state.errors["phone"]}</span>
                               </div>
@@ -280,7 +313,9 @@ class AddVendor extends Component {
                                 <label htmlFor="password" className="form-label"> Password <span className="mandatory-field">*</span> </label>
                                 <div className="input-group input-group-merge">
 
-                                <input type="password" className="form-control passwoprd-field" name="password" id="password" placeholder="Password" onChange={this.handleFormFieldsChange} onInput={this.passwordInputHandler} />
+                                <input type="password" className="form-control passwoprd-field" name="password" 
+                                id="password" placeholder="Password" onChange={this.handleFormFieldsChange} 
+                                onInput={this.passwordInputHandler} value={password} />
                                 <a className="input-group-append input-group-text password-div">
                                     <i className="bi-eye-slash" onClick={this.handlepassword} id="passIcon"></i>
                                 </a>
@@ -296,7 +331,7 @@ class AddVendor extends Component {
                                 <div className="input-group input-group-merge">
                                   <input type="password" className="form-control" name="confirmPassword" id="confirmPassword"
                                     placeholder="Confirm Password" onChange={this.handleFormFieldsChange} 
-                                    onInput={this.confirmPasswordInputHandler} />
+                                    onInput={this.confirmPasswordInputHandler} value={password} />
                                   <a className="input-group-append input-group-text">
                                     <i className="bi-eye-slash" onClick={this.handlepassword} id="passIcon1"></i>
                                   </a>
@@ -305,10 +340,12 @@ class AddVendor extends Component {
                               </div>
                             </div>
 
-                            {/* <div className="col-sm-6">
+                            <div className="col-sm-6">
                               <div className="mb-4">
                                 <label htmlFor="shopifyStoreUrl" className="form-label"> Shopify Store Url <span className="mandatory-field">*</span></label>
-                                <input type="text" className="form-control" name="shopifyStoreUrl" id="shopifyStoreUrl" placeholder="Shopify Store Url" onChange={this.handleFormFieldsChange} />
+                                <input type="text" className="form-control" name="shopifyStoreUrl" 
+                                id="shopifyStoreUrl" placeholder="Shopify Store Url" 
+                                onChange={this.handleFormFieldsChange} value={shopifyStoreUrl} />
                                 <span className="mandatory-field">{this.state.errors["shopifyStoreUrl"]}</span>
                               </div>
                             </div>
@@ -317,7 +354,8 @@ class AddVendor extends Component {
                               <div className="mb-4">
                                 <label htmlFor="shopifyApiAccessToken" className="form-label"> Shopify Api Access Token <span className="mandatory-field">*</span></label>
                                 <input type="text" className="form-control" name="shopifyApiAccessToken" id="shopifyApiAccessToken"
-                                  placeholder="Shopify Api Access Token" onChange={this.handleFormFieldsChange} />
+                                  placeholder="Shopify Api Access Token" onChange={this.handleFormFieldsChange} 
+                                  value={shopifyApiAccessToken} />
                                 <span className="mandatory-field">{this.state.errors["shopifyApiAccessToken"]}</span>
                               </div>
                             </div>
@@ -326,7 +364,8 @@ class AddVendor extends Component {
                               <div className="mb-4">
                                 <label htmlFor="shopifyApiKey" className="form-label"> Shopify Api Key <span className="mandatory-field">*</span></label>
                                 <input type="text" className="form-control" name="shopifyApiKey" id="shopifyApiKey"
-                                  placeholder="Shopify Api Key" onChange={this.handleFormFieldsChange} />
+                                  placeholder="Shopify Api Key" onChange={this.handleFormFieldsChange} 
+                                  value={shopifyApiKey} />
                                 <span className="mandatory-field">{this.state.errors["shopifyApiKey"]}</span>
                               </div>
                             </div>
@@ -335,14 +374,15 @@ class AddVendor extends Component {
                               <div className="mb-4">
                                 <label htmlFor="shopifyApiSecretKey" className="form-label"> Shopify Api Secret Key <span className="mandatory-field">*</span></label>
                                 <input type="text" className="form-control" name="shopifyApiSecretKey" id="shopifyApiSecretKey"
-                                  placeholder="Shopify Api Secret Key" onChange={this.handleFormFieldsChange} />
+                                  placeholder="Shopify Api Secret Key" onChange={this.handleFormFieldsChange} 
+                                  value={shopifyApiSecretKey} />
                                 <span className="mandatory-field">{this.state.errors["shopifyApiSecretKey"]}</span>
                               </div>
-                            </div> */}
+                            </div>
                             
                             <div></div>
                             <div className="text-end">
-                              <button type="submit" className="btn btn-primary btn-sm">Submit</button>
+                              <button type="submit" className="btn btn-primary btn-sm">Save Data</button>
                             </div>
 
                           </div>
@@ -363,4 +403,4 @@ class AddVendor extends Component {
     );
   }
 }
-export default WithRouter(AddVendor);
+export default WithRouter(UpdateStore);

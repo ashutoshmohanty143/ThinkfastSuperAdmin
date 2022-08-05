@@ -6,10 +6,6 @@ import Vendors from './Components/ManageVendor/Vendors';
 import AddVendor from './Components/ManageVendor/AddVendor';
 
 function App() {
-  const setSession = function setSessionValue(){
-    let session = false;
-    return session;
-  }
   return (
     <div className="App" >
       <BrowserRouter>
