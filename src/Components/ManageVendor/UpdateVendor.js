@@ -22,7 +22,7 @@ class UpdateStore extends Component {
   }
 
     componentDidMount() {
-        const collectionName = "stores";
+        const collectionName = "vendorusers";
         const path = window.location.pathname;
         const id = path.split('/')[2];
         ApiServices.GetSingleRecordById(id, collectionName)
@@ -58,12 +58,18 @@ class UpdateStore extends Component {
     if (!fields["email"]) {
       formIsValid = false;
       errors["email"] = "Email Cannot be empty";
+    }  else if (!CommonMethods.emailValidator(fields["email"])) {
+      formIsValid = false;
+      errors["email"] = "Please give valid email.";
     }
 
     //Phone
     if (!fields["phone"]) {
       formIsValid = false;
       errors["phone"] = "Phone Cannot be empty";
+    } else if (fields["phone"].length != 12) {
+      formIsValid = false;
+      errors["phone"] = "Phone should be 10 digits.";
     }
 
     //Password
@@ -76,38 +82,9 @@ class UpdateStore extends Component {
     if (!fields["confirmPassword"]) {
       formIsValid = false;
       errors["confirmPassword"] = "Confirm Password Cannot be empty";
-    }
-    
-    //Shopify Store Url
-    if (!fields["shopifyStoreUrl"]) {
+    } else if (!this.confirmPasswordInputHandler) {
       formIsValid = false;
-      errors["shopifyStoreUrl"] = "Shopify Store Url Cannot be empty";
-    } else {
-      errors["shopifyStoreUrl"] = "";
-    }
-
-    //Shopify Api Access Token
-    if (!fields["shopifyApiAccessToken"]) {
-      formIsValid = false;
-      errors["shopifyApiAccessToken"] = "Shopify Api Access Token Cannot be empty";
-    } else {
-      errors["shopifyApiAccessToken"] = "";
-    }
-
-    //Shopify Api Key
-    if (!fields["shopifyApiKey"]) {
-      formIsValid = false;
-      errors["shopifyApiKey"] = "Shopify Api Key Cannot be empty";
-    } else {
-      errors["shopifyApiKey"] = "";
-    }
-
-    //Shopify Api Secret Key
-    if (!fields["shopifyApiSecretKey"]) {
-      formIsValid = false;
-      errors["shopifyApiSecretKey"] = "Shopify Api Secret Key Cannot be empty";
-    } else {
-      errors["shopifyApiSecretKey"] = "";
+      errors["confirmPassword"] = "Confirm Password & Password doesn't match.";
     }
 
     this.setState({ errors: errors });
@@ -160,7 +137,8 @@ class UpdateStore extends Component {
   submitForm = event => {
     event.preventDefault();
     if(this.formValidate()) {   
-      let { storeName, email, phone, password, shopifyStoreUrl, shopifyApiAccessToken, shopifyApiKey, shopifyApiSecretKey } = this.state.fields;
+      let { storeName, email, phone, password } = this.state.fields;
+      let finalPassword = window.btoa(password);
       let path = window.location.pathname;
       let id = path.split('/')[2];
       const formData = {
@@ -170,25 +148,23 @@ class UpdateStore extends Component {
                   "storeName": storeName,
                   "email": email,
                   "phone": phone,
-                  "password": password,
-                  "shopifyStoreUrl": shopifyStoreUrl,
-                  "shopifyApiAccessToken": shopifyApiAccessToken,
-                  "shopifyApiKey": shopifyApiKey,
-                  "shopifyApiSecretKey": shopifyApiSecretKey
+                  "password": finalPassword
           },
           "meta" : {
-              "duplicate" : ['']
+            "duplicate" : ["email","phone"],
+            "isPassword" : true,
+            "passwordKey" : "password"
           }
       };   
       ApiServices.UpdateRecord(formData).then(response => {    
           if(response.status == 200 && response.data.status){
             swal({
                 title: "Thank you!",
-                text: `Store Updated successfully!!!`,
+                text: `Vendor Updated successfully!!!`,
                 type: "success",
             }).then((value) => {
                 if (value) {
-                    this.props.navigate('/stores');
+                    this.props.navigate('/vendors');
                 }
             });
           }           
@@ -229,35 +205,30 @@ class UpdateStore extends Component {
   }
 
   render() {
-    let { storeName, email, phone, password, shopifyStoreUrl, shopifyApiAccessToken, shopifyApiKey, shopifyApiSecretKey } = this.state.fields;
+    let { storeName, email, phone, password } = this.state.fields;
+    // let password = window.atob(this.state.fields['password']);
     return (
       <>
-        {sessionStorage.getItem("userToken") ? (
-          <div>
-            <Header />
-            <SideNav />
-            <main id="content" role="main" className="main">
-              <div className="content container-fluid">
+        <div className="content container-fluid">
                 <div className="page-header">
                   <div className="row align-items-center">
                     <div className="col-sm mb-2 mb-sm-0">
                       <nav aria-label="breadcrumb">
                         <ol className="breadcrumb breadcrumb-no-gutter">
                           <li className="breadcrumb-item">
-                            <Link className="breadcrumb-link" to="/stores">
-                              Stores
+                            <Link className="breadcrumb-link" to="/vendors">
+                              Vendors
                             </Link>
                           </li>
                           <li
                             className="breadcrumb-item active"
-                            aria-current="page"
-                          >
-                            Add Store
+                            aria-current="page">
+                            Add Vendor
                           </li>
                         </ol>
                       </nav>
 
-                      <h1 className="page-header-title">Add Store</h1>
+                      <h1 className="page-header-title">Add Vendor</h1>
                     </div>
                   </div>
                 </div>
@@ -339,46 +310,6 @@ class UpdateStore extends Component {
                                 <span className="mandatory-field">{this.state.errors["confirmPassword"]}</span>
                               </div>
                             </div>
-
-                            <div className="col-sm-6">
-                              <div className="mb-4">
-                                <label htmlFor="shopifyStoreUrl" className="form-label"> Shopify Store Url <span className="mandatory-field">*</span></label>
-                                <input type="text" className="form-control" name="shopifyStoreUrl" 
-                                id="shopifyStoreUrl" placeholder="Shopify Store Url" 
-                                onChange={this.handleFormFieldsChange} value={shopifyStoreUrl} />
-                                <span className="mandatory-field">{this.state.errors["shopifyStoreUrl"]}</span>
-                              </div>
-                            </div>
-
-                            <div className="col-sm-6">
-                              <div className="mb-4">
-                                <label htmlFor="shopifyApiAccessToken" className="form-label"> Shopify Api Access Token <span className="mandatory-field">*</span></label>
-                                <input type="text" className="form-control" name="shopifyApiAccessToken" id="shopifyApiAccessToken"
-                                  placeholder="Shopify Api Access Token" onChange={this.handleFormFieldsChange} 
-                                  value={shopifyApiAccessToken} />
-                                <span className="mandatory-field">{this.state.errors["shopifyApiAccessToken"]}</span>
-                              </div>
-                            </div>
-
-                            <div className="col-sm-6">
-                              <div className="mb-4">
-                                <label htmlFor="shopifyApiKey" className="form-label"> Shopify Api Key <span className="mandatory-field">*</span></label>
-                                <input type="text" className="form-control" name="shopifyApiKey" id="shopifyApiKey"
-                                  placeholder="Shopify Api Key" onChange={this.handleFormFieldsChange} 
-                                  value={shopifyApiKey} />
-                                <span className="mandatory-field">{this.state.errors["shopifyApiKey"]}</span>
-                              </div>
-                            </div>
-
-                            <div className="col-sm-6">
-                              <div className="mb-4">
-                                <label htmlFor="shopifyApiSecretKey" className="form-label"> Shopify Api Secret Key <span className="mandatory-field">*</span></label>
-                                <input type="text" className="form-control" name="shopifyApiSecretKey" id="shopifyApiSecretKey"
-                                  placeholder="Shopify Api Secret Key" onChange={this.handleFormFieldsChange} 
-                                  value={shopifyApiSecretKey} />
-                                <span className="mandatory-field">{this.state.errors["shopifyApiSecretKey"]}</span>
-                              </div>
-                            </div>
                             
                             <div></div>
                             <div className="text-end">
@@ -392,13 +323,6 @@ class UpdateStore extends Component {
                   </div>
                 </div>
               </div>
-            </main >
-      <Footer />
-          </div >
-        ) : (
-      (window.location.href = "/")
-    )
-  }
       </>
     );
   }

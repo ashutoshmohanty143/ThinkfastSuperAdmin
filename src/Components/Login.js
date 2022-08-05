@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import { WithRouter } from './Common/WithRouter';
 import '../Common.css';
 
 class Login extends Component {
@@ -8,35 +9,29 @@ class Login extends Component {
     super(props);
 
     this.state = {
-      loginParams: {
-        email:"",
-        password:""
-      },
-      formErrors:{}
+      passShown:false ,
+      fields:{},
+      formErrors:{},
     };   
   };
 
   handleFormFieldsChange = (event) =>{
-    let loginParamsNew = { ...this.state.loginParams };
-    let val = event.target.value;
-    loginParamsNew[event.target.name] = val;
-    this.setState({
-      loginParams: loginParamsNew
-    });
+    let fields = this.state.fields;
+    fields[event.target.name] = event.target.value;
+    this.setState({ fields });
   }
 
   formValidate(){
-    let email = this.state.loginParams.email;
-    let password = this.state.loginParams.password;
+    let fields = this.state.fields;
     let formErrors = {};
     let formIsValid = true;
 
-
-    if(email === ""){
+    if(!fields['email']){
       formIsValid = false;
       formErrors['emailErr'] = "Email can't be blanked";
     }
-    if(password === ""){
+
+    if(!fields['password']){
       formIsValid = false;
       formErrors['passwordErr'] = "Password can't be blanked";
     }
@@ -50,60 +45,39 @@ class Login extends Component {
     e.preventDefault();
     
     if (this.formValidate()) {
-      const data = new FormData(e.target);
+      let fields = this.state.fields;
       const apiUrl = 'http://localhost:5000/api/auth/super-admin-login';
       const formData = {
-        username: data.get('email'),
-        password: data.get('password')
+        username: fields['email'],
+        password: fields['password']
       }
       axios.post(apiUrl, formData).then(response => {
-<<<<<<< HEAD
-        //console.log('response', response.data.data.accessToken);
-        /*console.log('response1', JSON.stringify(response.data.data));*/
-=======
-        // console.log('response', JSON.stringify(response.data.data));
-        // console.log('response1', response.data.data.accessToken);
->>>>>>> 5ee3d4b1eb0c90b0b5b46281fd98551a7238a89a
         sessionStorage.setItem("userToken", response.data.data.accessToken);
-        sessionStorage.setItem("userData", JSON.stringify(response.data.data));
-
+        sessionStorage.setItem("userName", response.data.data.username);
+        // sessionStorage.setItem("userData", JSON.stringify(response.data.data));
         if (sessionStorage.getItem('userToken')) {
-          window.location.href = "/dashboard";
+            this.props.navigate('/dashboard');
         } else {
           console.log('error');
         }
       }).catch(error => {
         console.log("error", error)
-        //this.setState({start:false})
+        
       })          
     } else {
       return false;
     }
   }
 
-  handlepassword(e) {
-    let pt = document.getElementById('textboxPassword');
-    let picon = document.getElementById('passIcon');
-    if (e.target.className == 'bi-eye-slash') {
-      pt.setAttribute('type', 'text');
-      picon.classList.remove('bi-eye-slash')
-      picon.classList.add('bi-eye')
-    } else {
-      pt.setAttribute('type', 'password');
-      picon.classList.remove('bi-eye');
-      picon.classList.add('bi-eye-slash');
-    }
-
+  handlepassword = e => {
+    e.preventDefault();   
+    this.setState({ passShown : !this.state.passShown });
   }
 
   render() {
-    //this.authLogin();
     const { emailErr, passwordErr } = this.state.formErrors;
     return (
       <>
-        {sessionStorage.getItem('userToken') ?
-          window.location.href = "/dashboard" :
-
           <div className="d-flex align-items-center min-h-100">
 
             <main id="content" role="main" className="main pt-0" style={{ paddingLeft: 0 }}>
@@ -200,7 +174,6 @@ class Login extends Component {
                                   type="text" 
                                   className={`form-control form-control-lg ${emailErr ? 'errorBorder' : ''}`}
                                   name="email" 
-                                  id="textboxEmail" 
                                   onChange={this.handleFormFieldsChange}
                                   tabIndex="1" 
                                   placeholder="email@address.com" 
@@ -220,15 +193,15 @@ class Login extends Component {
                           </label>
 
                           <div className="input-group input-group-merge">
-                            <input  type="password" 
+                            <input  type={ this.state.passShown ? "text" : "password" } 
                                     className={`form-control form-control-lg ${passwordErr ? 'errorBorder' : ''}`} 
                                     onChange={this.handleFormFieldsChange}
                                     name="password" 
-                                    id="textboxPassword" 
                                     placeholder="8+ characters required" 
                             />
                             <a className="input-group-append input-group-text">
-                              <i className="bi-eye-slash" onClick={this.handlepassword} id="passIcon"></i>
+                              <i className={ this.state.passShown ? "bi-eye" : "bi-eye-slash" } 
+                                    onClick={this.handlepassword}></i>
                             </a>
                           </div>
                           {passwordErr && <span className='errorMsg'>{passwordErr}</span>}
@@ -258,10 +231,10 @@ class Login extends Component {
               </div>
 
             </main>
-          </div>}
+          </div>
       </>
     )
   }
 }
 
-export default Login;
+export default WithRouter(Login);

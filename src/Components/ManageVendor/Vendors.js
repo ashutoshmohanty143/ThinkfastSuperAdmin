@@ -19,7 +19,7 @@ class Vendors extends Component {
   }
 
   componentDidMount(){
-    const collectionName = "stores";
+    const collectionName = "vendorusers";
     ApiServices.GetAllRecords(collectionName).then(response => {
       this.setState({ storeLists : response.data.data }); 
     }).catch(error => {
@@ -29,11 +29,11 @@ class Vendors extends Component {
 
   handleDeleteRecord = (event, id) => {
     event.preventDefault();
-    const collectionName = "stores";
+    const collectionName = "vendorusers";
 
     swal({
       title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this store",
+      text: "Once deleted, you will not be able to recover this vendor",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -42,7 +42,7 @@ class Vendors extends Component {
         ApiServices.DeleteRecord(id, collectionName)
           .then((response) => {
             if (response.status === 200 && response.data.status === "success") {
-              swal("This store has been deleted!", {
+              swal("This vendor has been deleted!", {
                 icon: "success",
               }).then((value) => {
                 if (value) {
@@ -66,12 +66,7 @@ class Vendors extends Component {
     const { storeLists } = this.state;
     return (
       <>
-      {sessionStorage.getItem('userToken') ?
-        <div>
-          <Header />
-          <SideNav />
-          <main id="content" role="main" className="main">
-            <div className="content container-fluid">
+          <div className="content container-fluid">
               <div className="page-header">
                 <div className="row align-items-center mb-3">
                   <div className="col-md mb-2 mb-md-0">
@@ -282,7 +277,7 @@ class Vendors extends Component {
                         <div className="btn-group" role="group">
                                     <Link
                                       className="btn btn-white btn-sm"
-                                      to={`/updatestore/${item._id}`}
+                                      to={`/updatevendor/${item._id}`}
                                     >
                                       {" "}
                                       <i className="bi-pencil-fill me-1">
@@ -373,10 +368,6 @@ class Vendors extends Component {
 
               </div>
             </div>
-          </main>
-          <Footer />
-        </div>
-        : window.location.href= "/"}
     </>
     )
   }
