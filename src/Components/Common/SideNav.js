@@ -41,7 +41,7 @@ export default function SideNav() {
                 id="navbarVerticalMenu"
                 className="nav nav-pills nav-vertical card-navbar-nav"
               >
-                <div className="nav-item">
+                {/* <div className="nav-item">
                   <a
                     className="nav-link dropdown-toggle active"
                     href="#navbarVerticalMenuDashboards"
@@ -61,12 +61,22 @@ export default function SideNav() {
                     <NavLink className="nav-link" to="/dashboard">Home</NavLink>
                   
                   </div>
-                </div>
-                <span className="dropdown-header mt-4">Pages</span>
+                </div> */}
+
+                  <div className="nav-item">
+                    <NavLink className="nav-link" to="/dashboard"><i className="bi-house-door nav-icon"></i> Dashboard</NavLink>
+                  </div>
+                  
+                {/* <span className="dropdown-header mt-4">Pages</span> */}
                 <small className="bi-three-dots nav-subtitle-replacer"></small>
                 <div className="navbar-nav nav-compact"></div>
                 <div id="navbarVerticalMenuPagesMenu">
+
                   <div className="nav-item">
+                    <NavLink className="nav-link" to="/vendors"><i className="bi-eye nav-icon"></i> Vendors</NavLink>
+                  </div>
+                  
+                  {/* <div className="nav-item">
                     <a
                       className="nav-link dropdown-toggle "
                       href="#navbarVerticalMenuPagesUsersMenu"
@@ -77,16 +87,16 @@ export default function SideNav() {
                       aria-controls="navbarVerticalMenuPagesUsersMenu"
                     >
                       <i className="bi-people nav-icon"></i>
-                      <span className="nav-link-title">Manage Stores</span>
+                      <span className="nav-link-title">Manage Vendors</span>
                     </a>
                     <div
                       id="navbarVerticalMenuPagesUsersMenu"
                       className="nav-collapse collapse "
                       data-bs-parent="#navbarVerticalMenuPagesMenu"
                     >
-                      <NavLink className="nav-link" to="/stores">View Stores</NavLink>
+                      <NavLink className="nav-link" to="/stores">View Vendors</NavLink>
                     </div>
-                  </div>
+                  </div> */}
                 
                 </div>
               </div>

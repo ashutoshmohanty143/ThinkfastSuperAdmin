@@ -9,7 +9,7 @@ import Header from "../Common/Header";
 import SideNav from "../Common/SideNav";    
 import Footer from "../Common/Footer";
 
-export default class AddStore extends Component {
+export default class AddVendor extends Component {
   constructor(props) {
     super(props);
 
@@ -69,28 +69,28 @@ export default class AddStore extends Component {
     }
     
     //Shopify Store Url
-    if (!fields["shopifyStoreUrl"]) {
-      formIsValid = false;
-      errors["shopifyStoreUrl"] = "Shopify Store Url Cannot be empty";
-    }
+    // if (!fields["shopifyStoreUrl"]) {
+    //   formIsValid = false;
+    //   errors["shopifyStoreUrl"] = "Shopify Store Url Cannot be empty";
+    // }
 
     //Shopify Api Access Token
-    if (!fields["shopifyApiAccessToken"]) {
-      formIsValid = false;
-      errors["shopifyApiAccessToken"] = "Shopify Api Access Token Cannot be empty";
-    }
+    // if (!fields["shopifyApiAccessToken"]) {
+    //   formIsValid = false;
+    //   errors["shopifyApiAccessToken"] = "Shopify Api Access Token Cannot be empty";
+    // }
 
     //Shopify Api Key
-    if (!fields["shopifyApiKey"]) {
-      formIsValid = false;
-      errors["shopifyApiKey"] = "Shopify Api Key Cannot be empty";
-    }
+    // if (!fields["shopifyApiKey"]) {
+    //   formIsValid = false;
+    //   errors["shopifyApiKey"] = "Shopify Api Key Cannot be empty";
+    // }
 
     //Shopify Api Secret Key
-    if (!fields["shopifyApiSecretKey"]) {
-      formIsValid = false;
-      errors["shopifyApiSecretKey"] = "Shopify Api Secret Key Cannot be empty";
-    }
+    // if (!fields["shopifyApiSecretKey"]) {
+    //   formIsValid = false;
+    //   errors["shopifyApiSecretKey"] = "Shopify Api Secret Key Cannot be empty";
+    // }
 
     this.setState({ errors: errors });
     return formIsValid;
@@ -178,7 +178,7 @@ export default class AddStore extends Component {
     //console.log(11)
     if(this.formValidate()) {
       //console.log(1)
-      swal("Thank you!", "Your store added successfully!!!", "success");
+      swal("Thank you!", "Vendor added successfully!!!", "success");
       // this.setState = {fields : {}};
       
     } else {
@@ -252,7 +252,7 @@ export default class AddStore extends Component {
                     <div className="card mb-3 mb-lg-5">
                       <div className="card-header">
                         <h4 className="card-header-title">
-                          Add Store Information
+                          Add Vendor
                         </h4>
                       </div>
 
@@ -319,7 +319,7 @@ export default class AddStore extends Component {
                               </div>
                             </div>
 
-                            <div className="col-sm-6">
+                            {/* <div className="col-sm-6">
                               <div className="mb-4">
                                 <label htmlFor="shopifyStoreUrl" className="form-label"> Shopify Store Url <span className="mandatory-field">*</span></label>
                                 <input type="text" className="form-control" name="shopifyStoreUrl" id="shopifyStoreUrl" placeholder="Shopify Store Url" onChange={this.handleFormFieldsChange} />
@@ -352,7 +352,7 @@ export default class AddStore extends Component {
                                   placeholder="Shopify Api Secret Key" onChange={this.handleFormFieldsChange} />
                                 <span className="mandatory-field">{this.state.errors["shopifyApiSecretKey"]}</span>
                               </div>
-                            </div>
+                            </div> */}
                             
                             <div></div>
                             <div className="text-end">

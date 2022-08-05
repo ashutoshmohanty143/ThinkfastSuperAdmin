@@ -53,16 +53,16 @@ class Login extends Component {
     
     if (this.formValidate()) {
       const data = new FormData(e.target);
-      const apiUrl = 'http://localhost:5000/api/auth/login';
+      const apiUrl = 'http://localhost:5000/api/auth/super-admin-login';
       const formData = {
         username: data.get('email'),
         password: data.get('password')
       }
       axios.post(apiUrl, formData).then(response => {
-        console.log('response', response);
-        console.log('response1', response.data.data.accesToken);
-        sessionStorage.setItem("userToken", response.data.data.accesToken);
-        sessionStorage.setItem("userData", response.data.data);
+        //console.log('response', response.data.data.accessToken);
+        /*console.log('response1', JSON.stringify(response.data.data));*/
+        sessionStorage.setItem("userToken", response.data.data.accessToken);
+        sessionStorage.setItem("userData", JSON.stringify(response.data.data));
 
         if (sessionStorage.getItem('userToken')) {
           window.location.href = "/dashboard";
