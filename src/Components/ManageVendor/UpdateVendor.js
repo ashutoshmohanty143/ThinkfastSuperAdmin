@@ -1,57 +1,49 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React , { useState, useEffect} from 'react';
+import { Link, useLocation } from "react-router-dom";
 import swal from 'sweetalert';
-import { WithRouter } from '../Common/WithRouter';
-import '../../css/AddStore.css';
-
-import Header from "../Common/Header";
-import SideNav from "../Common/SideNav";    
-import Footer from "../Common/Footer";
 
 import ApiServices from '../Common/ApiServices';
 import CommonMethods from '../Common/CommonMethods';
 
-class UpdateStore extends Component {
-  constructor(props) {
-    super(props);
+const UpdateVendor = () => {
 
-    this.state = {
-      fields: {},
-      errors: {},
-    };
-  }
+  const [fields, setFields] = useState({});
+  const [errors, setErrors] = useState({});
 
-    componentDidMount() {
-        const collectionName = "vendorusers";
-        const path = window.location.pathname;
-        const id = path.split('/')[2];
-        ApiServices.GetSingleRecordById(id, collectionName)
-            .then((response) => {
-                this.setState({ fields: response.data.data });
-            })
-            .catch((error) => {
-                console.log("error", error);
-            });
-    }
+  const location = useLocation();
 
+  useEffect(() =>{ 
+    const collectionName = "vendorusers";
+    const id = location.state.vendor_id;
+    // console.log(id);
+    ApiServices.GetSingleRecordById(id, collectionName)
+        .then((response) => {
+          setFields(response.data.data);
+        })
+        .catch((error) => {
+            console.log("error", error);
+        });
+  }, []);
 
-  handleFormFieldsChange = event => {
-    let fields = this.state.fields;
+  // console.log(fields['vendorName']);
+
+  const handleFormFieldsChange = event => {
+    let fields = fields; 
     fields[event.target.name] = event.target.value;
-    this.setState({ fields });
+    setFields(fields);
+    // setFields(event.target.value);
   }
 
-  formValidate(){
-    let fields = this.state.fields;
+  function formValidate(){
     let errors = {};
     let formIsValid = true;
 
-    //Name
-    if (!fields["storeName"]) {
+    //Vendor Name
+    if (!fields["vendorName"]) {
       formIsValid = false;
-      errors["storeName"] = "Store Name Cannot be empty";
+      errors["vendorName"] = "Vendor Name Cannot be empty";
     } else {
-      errors["storeName"] = "";
+      errors["vendorName"] = "";
     }
 
     //Email
@@ -61,6 +53,9 @@ class UpdateStore extends Component {
     }  else if (!CommonMethods.emailValidator(fields["email"])) {
       formIsValid = false;
       errors["email"] = "Please give valid email.";
+    } else if (fields["email"] != this.state.fields['email']){
+      formIsValid = false;
+      errors["email"] = "Email ID can't be changed.";
     }
 
     //Phone
@@ -72,83 +67,43 @@ class UpdateStore extends Component {
       errors["phone"] = "Phone should be 10 digits.";
     }
 
-    //Password
-    if (!fields["password"]) {
-      formIsValid = false;
-      errors["password"] = "Password Cannot be empty";
-    }
-    
-    //Confirm Password
-    if (!fields["confirmPassword"]) {
-      formIsValid = false;
-      errors["confirmPassword"] = "Confirm Password Cannot be empty";
-    } else if (!this.confirmPasswordInputHandler) {
-      formIsValid = false;
-      errors["confirmPassword"] = "Confirm Password & Password doesn't match.";
-    }
-
-    this.setState({ errors: errors });
+    setErrors(errors);
     return formIsValid;
   }
 
   // Email Validating
-  emailInputHandler = (e) =>{
+  const emailInputHandler = (e) =>{
     if (!CommonMethods.emailValidator(e.target.value)) {
-      this.state.errors["email"] = "Please give valid email";
+      errors["email"] = "Please give valid email";
     } else {
-      this.state.errors["email"] = "";
+      errors["email"] = "";
     }
   }   
 
   // Phone Masking  
-  phoneInputHandler = e => {
+  const phoneInputHandler = e => {
     if(!CommonMethods.phoneMasking(e)){
-      this.state.errors["phone"] = "Please Give Only Numbers";
+      errors["phone"] = "Please Give Only Numbers";
     } else {
-      this.state.errors["phone"] = "";
-    }
-  }
-  
-  
-  //Password Validating
-  passwordInputHandler = e =>{    
-    if (!CommonMethods.passwordValidator(e.target.value)) {
-      this.state.errors["password"] = "Please give valid password";
-    } else {
-      this.state.errors["password"] = "";
+      errors["phone"] = "";
     }
   }
 
-  //Confirm Password Validating
-  confirmPasswordInputHandler = e =>{
-    var pass = this.state.fields['password'];
-    let cpass = e.target.value;
-    if (!CommonMethods.passwordValidator(cpass)) {
-      this.state.errors["confirmPassword"] = "Please give valid password";
-    } else {
-      if (cpass != pass) {
-        this.state.errors["confirmPassword"] = "Confirm Password & Password doesn't match.";
-      } else {
-        this.state.errors["confirmPassword"] = "";
-      }
-    } 
-  }
 
-  submitForm = event => {
+  const submitForm = event => {
     event.preventDefault();
-    if(this.formValidate()) {   
-      let { storeName, email, phone, password } = this.state.fields;
-      let finalPassword = window.btoa(password);
+    if(formValidate()) {   
+      let { vendorName, email, phone } = fields;
+      // let finalPassword = window.btoa(password);
       let path = window.location.pathname;
       let id = path.split('/')[2];
       const formData = {
-          "collection" : "stores",
+          "collection" : "vendorusers",
           "id": id,
           "data": {
-                  "storeName": storeName,
-                  "email": email,
-                  "phone": phone,
-                  "password": finalPassword
+                  "vendorName": vendorName,
+                  // "email": email,   
+                  "phone": phone
           },
           "meta" : {
             "duplicate" : ["email","phone"],
@@ -176,39 +131,10 @@ class UpdateStore extends Component {
     }  
   }
 
-  handlepassword = e => {
-    if (e.target.id == 'passIcon') {
-      let pt = document.getElementById('password');
-      let picon = document.getElementById('passIcon');
-      if (e.target.className == 'bi-eye-slash') {
-        pt.setAttribute('type', 'text');
-        picon.classList.remove('bi-eye-slash')
-        picon.classList.add('bi-eye')
-      } else {
-        pt.setAttribute('type', 'password');
-        picon.classList.remove('bi-eye');
-        picon.classList.add('bi-eye-slash');
-      }
-    } else {
-      let pt = document.getElementById('confirmPassword');
-      let picon = document.getElementById('passIcon1');
-      if (e.target.className == 'bi-eye-slash') {
-        pt.setAttribute('type', 'text');
-        picon.classList.remove('bi-eye-slash')
-        picon.classList.add('bi-eye')
-      } else {
-        pt.setAttribute('type', 'password');
-        picon.classList.remove('bi-eye');
-        picon.classList.add('bi-eye-slash');
-      }
-    }
-  }
+  let { vendorName, email, phone } = fields;
 
-  render() {
-    let { storeName, email, phone, password } = this.state.fields;
-    // let password = window.atob(this.state.fields['password']);
-    return (
-      <>
+  return (
+    <>
         <div className="content container-fluid">
                 <div className="page-header">
                   <div className="row align-items-center">
@@ -223,12 +149,12 @@ class UpdateStore extends Component {
                           <li
                             className="breadcrumb-item active"
                             aria-current="page">
-                            Add Vendor
+                            Update Vendor
                           </li>
                         </ol>
                       </nav>
 
-                      <h1 className="page-header-title">Add Vendor</h1>
+                      <h1 className="page-header-title">Update Vendor</h1>
                     </div>
                   </div>
                 </div>
@@ -238,21 +164,21 @@ class UpdateStore extends Component {
                     <div className="card mb-3 mb-lg-5">
                       <div className="card-header">
                         <h4 className="card-header-title">
-                          Add Store Information
+                          Update Vendor Information
                         </h4>
                       </div>
 
                       <div className="card-body">
-                        <form method="post" onSubmit={this.submitForm}>
+                        <form method="post" onSubmit={submitForm}>
                           <div className="row">
 
                             <div className="col-sm-6">
                               <div className="mb-4">
-                                <label htmlFor="storeName" className="form-label"> Store Name <span className="mandatory-field">*</span> </label>
-                                <input type="text" className="form-control" name="storeName" id="storeName"
-                                  placeholder="Store Name" onChange={this.handleFormFieldsChange} 
-                                  onInput={this.snvalidate} value={storeName} />
-                                <span className="mandatory-field">{this.state.errors["storeName"]}</span>
+                                <label htmlFor="vendorName" className="form-label"> Vendor Name <span className="mandatory-field">*</span> </label>
+                                <input type="text" className="form-control" name="vendorName" id="vendorName"
+                                  placeholder="Store Name" onChange={handleFormFieldsChange} 
+                                  value={vendorName || ''} />
+                                <span className="mandatory-field">{errors["vendorName"]}</span>
                               </div>
                             </div>
 
@@ -260,9 +186,9 @@ class UpdateStore extends Component {
                               <div className="mb-4">
                                 <label htmlFor="email" className="form-label"> Email ID <span className="mandatory-field">*</span></label>
                                 <input type="text" className="form-control" name="email" id="email"
-                                  placeholder="Email ID" onChange={this.handleFormFieldsChange} 
-                                  onInput={this.emailInputHandler} value={email} />
-                                <span className="mandatory-field">{this.state.errors["email"]}</span>
+                                  placeholder="Email ID" onChange={handleFormFieldsChange} 
+                                  onInput={emailInputHandler} value={email || ''}  disabled={true} />
+                                <span className="mandatory-field">{errors["email"]}</span>
                               </div>
                             </div>
 
@@ -272,42 +198,10 @@ class UpdateStore extends Component {
                                 <label htmlFor="phone" className="form-label"> Phone No. <span className="mandatory-field">*</span></label>
                                 <div className="input-group">
                                   <input type="text" className="form-control" name="phone" id="phone" 
-                                  placeholder="Phone No." onChange={this.handleFormFieldsChange} 
-                                  onInput={this.phoneInputHandler} maxLength={12} value={phone} />
+                                  placeholder="Phone No." onChange={handleFormFieldsChange} 
+                                  onInput={phoneInputHandler} maxLength={12} value={phone || ''} />
                                 </div>
-                                <span className="mandatory-field">{this.state.errors["phone"]}</span>
-                              </div>
-                            </div>
-
-                            <div className="col-sm-6">
-                              <div className="mb-4">
-                                <label htmlFor="password" className="form-label"> Password <span className="mandatory-field">*</span> </label>
-                                <div className="input-group input-group-merge">
-
-                                <input type="password" className="form-control passwoprd-field" name="password" 
-                                id="password" placeholder="Password" onChange={this.handleFormFieldsChange} 
-                                onInput={this.passwordInputHandler} value={password} />
-                                <a className="input-group-append input-group-text password-div">
-                                    <i className="bi-eye-slash" onClick={this.handlepassword} id="passIcon"></i>
-                                </a>
-                                <span data-bs-toggle="pass_tooltip" data-bs-placement="top" title={`Password must have \n * Be at least 8 characters \n * Have at least one upper case letter \n * Have at least one lower case letter \n * Have at least one number \n * Have at least one symbol`} className="input-group-text tooltip-custom"><i className="bi bi-info-circle"></i></span>
-                                </div>
-                                <span className="mandatory-field">{this.state.errors["password"]}</span>
-                              </div>
-                            </div>
-
-                            <div className="col-sm-6">
-                              <div className="mb-4">
-                                <label htmlFor="confirmPassword" className="form-label"> Confirm Password <span className="mandatory-field">*</span></label>
-                                <div className="input-group input-group-merge">
-                                  <input type="password" className="form-control" name="confirmPassword" id="confirmPassword"
-                                    placeholder="Confirm Password" onChange={this.handleFormFieldsChange} 
-                                    onInput={this.confirmPasswordInputHandler} value={password} />
-                                  <a className="input-group-append input-group-text">
-                                    <i className="bi-eye-slash" onClick={this.handlepassword} id="passIcon1"></i>
-                                  </a>
-                                </div>
-                                <span className="mandatory-field">{this.state.errors["confirmPassword"]}</span>
+                                <span className="mandatory-field">{errors["phone"]}</span>
                               </div>
                             </div>
                             
@@ -324,7 +218,7 @@ class UpdateStore extends Component {
                 </div>
               </div>
       </>
-    );
-  }
+  )
 }
-export default WithRouter(UpdateStore);
+
+export default UpdateVendor

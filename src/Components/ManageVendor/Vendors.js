@@ -1,33 +1,30 @@
-
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 
-import Header from '../Common/Header';
-import SideNav from '../Common/SideNav';
-import Footer from '../Common/Footer';
-
 import ApiServices from '../Common/ApiServices';
-import { WithRouter } from '../Common/WithRouter';
 
-class Vendors extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-        storeLists: []
-    }
-  }
+const Vendors = () => {
 
-  componentDidMount(){
+  const [vendorLists, setVendorLists] = useState([]);
+
+  const navigate = useNavigate();
+
+  useEffect(() =>{ 
     const collectionName = "vendorusers";
     ApiServices.GetAllRecords(collectionName).then(response => {
-      this.setState({ storeLists : response.data.data }); 
+      setVendorLists(response.data.data); 
     }).catch(error => {
       console.log("error", error)
     });
+  }, [vendorLists]);
+
+  const handleEditRecord = (event, id) => {
+      event.preventDefault();
+      navigate('/updatevendor', {state:{vendor_id:id}} );
   }
 
-  handleDeleteRecord = (event, id) => {
+  const handleDeleteRecord = (event, id) => {
     event.preventDefault();
     const collectionName = "vendorusers";
 
@@ -46,11 +43,11 @@ class Vendors extends Component {
                 icon: "success",
               }).then((value) => {
                 if (value) {
-                  const index = this.state.storeLists
+                  const index = vendorLists
                     .map((object) => object._id)
                     .indexOf(id);
-                  this.state.storeLists.splice(index, 1);
-                  this.setState({ storeLists: this.state.storeLists });
+                  vendorLists.splice(index, 1);
+                  setVendorLists(vendorLists);
                 }
               });
             }
@@ -62,10 +59,8 @@ class Vendors extends Component {
     });
   };
 
-  render() {
-    const { storeLists } = this.state;
-    return (
-      <>
+  return (
+    <>
           <div className="content container-fluid">
               <div className="page-header">
                 <div className="row align-items-center mb-3">
@@ -254,7 +249,7 @@ class Vendors extends Component {
                         <th scope="col" className="table-column-pe-0">
                           SL No.
                         </th>
-                        <th className="table-column-ps-0">Store Name</th>
+                        <th className="table-column-ps-0">Vendor Name</th>
                         <th>E-mail</th>
                         <th>Phone</th>
                         <th>Action</th>
@@ -262,20 +257,20 @@ class Vendors extends Component {
                     </thead>
 
                     <tbody>
-                      { storeLists ? storeLists.map((item, i) =>
+                      { vendorLists ? vendorLists.map((item, i) =>
                       
                       <tr key={item._id}>
                         <td className="table-column-pe-0">
                             {i+1}
                         </td>
                         <td className="table-column-ps-0">
-                            {item.storeName}
+                            {item.vendorName}
                         </td>
                         <td>{item.email}</td>
                         <td>{item.phone}</td>
                         <td>
                         <div className="btn-group" role="group">
-                                    <Link
+                                    {/* <Link
                                       className="btn btn-white btn-sm"
                                       to={`/updatevendor/${item._id}`}
                                     >
@@ -284,7 +279,23 @@ class Vendors extends Component {
                                         {" "}
                                         Edit
                                       </i>{" "}
-                                    </Link>
+                                    </Link> */}
+
+                                    <a
+                                          className="btn btn-white btn-sm"
+                                          href=""
+                                          onClick={(event) =>
+                                            handleEditRecord(
+                                              event,
+                                              item._id
+                                            )
+                                          }
+                                        >
+                                          <i className="bi-pencil-fill me-1">
+                                            {" "}
+                                          </i>{" "}
+                                          Edit
+                                        </a>  
 
                                     <div className="btn-group">
                                       <button
@@ -303,7 +314,7 @@ class Vendors extends Component {
                                           className="dropdown-item"
                                           href=""
                                           onClick={(event) =>
-                                            this.handleDeleteRecord(
+                                            handleDeleteRecord(
                                               event,
                                               item._id
                                             )
@@ -369,8 +380,7 @@ class Vendors extends Component {
               </div>
             </div>
     </>
-    )
-  }
+  )
 }
 
-export default WithRouter(Vendors);
+export default Vendors

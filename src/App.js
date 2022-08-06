@@ -21,7 +21,7 @@ function App() {
           <Route path="/" element={<ProtectedRoutes Comp={Dashboard} />} >
             <Route exact path="/vendors" element={<Vendors />} />
             <Route exact path="/addvendor" element={<AddVendor />} />
-            <Route exact path="/updatevendor/:id" element={<UpdateVendor />} />
+            <Route exact path="/updatevendor" element={<UpdateVendor />} />
           </Route>
           <Route exact path="*" element={<PageNotFound />} />
 
