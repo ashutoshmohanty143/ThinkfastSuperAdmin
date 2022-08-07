@@ -13,9 +13,8 @@ const AddVendor = () => {
   const navigate = useNavigate();
 
   const handleFormFieldsChange = event => {
-    var fields1 = fields;
-    fields1[event.target.name] = event.target.value;
-    setFields(fields1);
+    fields[event.target.name] = event.target.value;
+    setFields(fields);
   }
 
   function formValidate(){
@@ -227,7 +226,7 @@ const AddVendor = () => {
                               <div className="mb-4">
                                 <label htmlFor="vendorName" className="form-label"> Vendor Name <span className="mandatory-field">*</span> </label>
                                 <input type="text" className="form-control" name="vendorName" id="vendorName"
-                                  placeholder="Store Name" onChange={handleFormFieldsChange} />
+                                  placeholder="Vendor Name" onChange={handleFormFieldsChange} />
                                 <span className="mandatory-field">{errors["vendorName"]}</span>
                               </div>
                             </div>
@@ -262,7 +261,9 @@ const AddVendor = () => {
                                 <a className="input-group-append input-group-text password-div">
                                     <i className="bi-eye-slash" onClick={handlepassword} id="passIcon"></i>
                                 </a>
-                                <span data-bs-toggle="pass_tooltip" data-bs-placement="top" title={`Password must have \n * Be at least 8 characters \n * Have at least one upper case letter \n * Have at least one lower case letter \n * Have at least one number \n * Have at least one symbol`} className="input-group-text tooltip-custom"><i className="bi bi-info-circle"></i></span>
+                                <span data-bs-toggle="pass_tooltip" data-bs-placement="top" 
+                                title={`Password must have \n * Be at least 8 characters \n * Have at least one upper case letter \n * Have at least one lower case letter \n * Have at least one number \n * Have at least one symbol`} className="input-group-text tooltip-custom">
+                                  <i className="bi bi-info-circle"></i></span>
                                 </div>
                                 <span className="mandatory-field">{errors["password"]}</span>
                               </div>

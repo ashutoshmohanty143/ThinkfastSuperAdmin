@@ -25,10 +25,9 @@ const UpdateVendor = () => {
         });
   }, []);
 
-  // console.log(fields['vendorName']);
-
   const handleFormFieldsChange = event => {
-    let fields = fields; 
+    console.log(event.target.value)
+    // let fields = fields; 
     fields[event.target.name] = event.target.value;
     setFields(fields);
     // setFields(event.target.value);
@@ -177,7 +176,7 @@ const UpdateVendor = () => {
                                 <label htmlFor="vendorName" className="form-label"> Vendor Name <span className="mandatory-field">*</span> </label>
                                 <input type="text" className="form-control" name="vendorName" id="vendorName"
                                   placeholder="Store Name" onChange={handleFormFieldsChange} 
-                                  value={vendorName || ''} />
+                                  value={fields['vendorName'] || ''} />
                                 <span className="mandatory-field">{errors["vendorName"]}</span>
                               </div>
                             </div>
