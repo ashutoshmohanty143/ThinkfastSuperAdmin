@@ -13,9 +13,9 @@ const AddVendor = () => {
   const navigate = useNavigate();
 
   const handleFormFieldsChange = event => {
-    let fields = fields;
-    fields[event.target.name] = event.target.value;
-    setFields(fields);
+    var fields1 = fields;
+    fields1[event.target.name] = event.target.value;
+    setFields(fields1);
   }
 
   function formValidate(){
@@ -68,6 +68,8 @@ const AddVendor = () => {
       formIsValid = false;
       errors["confirmPassword"] = "Password & Confirm Password doesn't match.";
     }
+
+    //console.log(errors);
 
     setErrors(errors);
     return formIsValid;
@@ -132,7 +134,7 @@ const AddVendor = () => {
                   "userType": "admin"
           },
           "meta" : {
-              "duplicate" : ["email","phone"],
+              "duplicate" : ["email"],
               "isPassword" : true,
               "passwordKey" : "password"
           }
