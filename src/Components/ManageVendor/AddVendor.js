@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import swal from 'sweetalert';
-
+import "./Vendor.css";
 import ApiServices from '../Common/ApiServices';
 import CommonMethods from '../Common/CommonMethods';
 
@@ -223,7 +223,7 @@ const AddVendor = () => {
                       <div className="card-body">
                         <form method="post" onSubmit={submitForm}>
                           <div className="row">
-                            <h3>Vendor Personal Information</h3>
+                            <span className='personal-info'>Vendor Personal Information</span>
                             <div className="col-sm-6">
                               <div className="mb-4">
                                 <label htmlFor="vendorName" className="form-label"> Vendor Name <span className="mandatory-field">*</span> </label>
@@ -241,7 +241,6 @@ const AddVendor = () => {
                                 <span className="mandatory-field">{errors["email"]}</span>
                               </div>
                             </div>
-
 
                             <div className="col-sm-6">
                               <div className="mb-4">
@@ -263,7 +262,7 @@ const AddVendor = () => {
                                 <a className="input-group-append input-group-text password-div">
                                     <i className="bi-eye-slash" onClick={handlepassword} id="passIcon"></i>
                                 </a>
-                                <span data-bs-toggle="pass_tooltip" data-bs-placement="top" 
+                                <span id="password-rule" data-bs-toggle="pass_tooltip" data-bs-placement="top" 
                                 title={`Password must have \n * Be at least 8 characters \n * Have at least one upper case letter \n * Have at least one lower case letter \n * Have at least one number \n * Have at least one symbol`} className="input-group-text tooltip-custom">
                                   <i className="bi bi-info-circle"></i></span>
                                 </div>
@@ -285,12 +284,96 @@ const AddVendor = () => {
                                 <span className="mandatory-field">{errors["confirmPassword"]}</span>
                               </div>
                             </div>
-                            
-                            <div></div>
-                            <div className="text-end">
-                              <button type="submit" className="btn btn-primary btn-sm">Submit</button>
+                          </div>
+                          <div className='row'>
+                            <span className='personal-info'>Vendor Legal Information</span>                            
+                            <div className="col-sm-6">
+                              <div className="mb-4">
+                                <label htmlFor="vendorName" className="form-label"> Company Name <span className="mandatory-field">*</span> </label>
+                                <input type="text" className="form-control" name="vendorName" id="vendorName"
+                                  placeholder="Vendor Name" onChange={handleFormFieldsChange} />
+                                <span className="mandatory-field">{errors["vendorName"]}</span>
+                              </div>
                             </div>
 
+                            <div className="col-sm-6">
+                              <div className="mb-4">
+                                <label htmlFor="phone" className="form-label"> Company Phone No. <span className="mandatory-field">*</span></label>
+                                <div className="input-group">
+                                  <input type="text" className="form-control" name="phone" id="phone" placeholder="Phone No." 
+                                  onChange={handleFormFieldsChange} onInput={phoneInputHandler} maxLength={12}/>
+                                </div>
+                                <span className="mandatory-field">{errors["phone"]}</span>
+                              </div>
+                            </div>
+
+                            <div className="col-sm-6">
+                              <div className="mb-4">
+                                <label htmlFor="email" className="form-label"> Company Email ID <span className="mandatory-field">*</span></label>
+                                <input type="text" className="form-control" name="email" id="email"
+                                  placeholder="Email ID" onChange={handleFormFieldsChange} onInput={emailInputHandler} />
+                                <span className="mandatory-field">{errors["email"]}</span>
+                              </div>
+                            </div>
+
+                            
+                            <div className="col-sm-6">
+                              <div className="mb-4">
+                                <label htmlFor="email" className="form-label"> Company CIN <span className="mandatory-field">*</span></label>
+                                <input type="text" className="form-control" name="email" id="email"
+                                  placeholder="Email ID" onChange={handleFormFieldsChange} onInput={emailInputHandler} />
+                                <span className="mandatory-field">{errors["email"]}</span>
+                              </div>
+                            </div>
+
+                            <div className="col-sm-6">
+                              <div className="mb-4">
+                                <label htmlFor="email" className="form-label"> Company GSTIN <span className="mandatory-field">*</span></label>
+                                <input type="text" className="form-control" name="email" id="email"
+                                  placeholder="Email ID" onChange={handleFormFieldsChange} onInput={emailInputHandler} />
+                                <span className="mandatory-field">{errors["email"]}</span>
+                              </div>
+                            </div>
+
+                            <div className="col-sm-6">
+                              <div className="mb-4">
+                                <label htmlFor="email" className="form-label"> Company Website URL <span className="mandatory-field">*</span></label>
+                                <input type="text" className="form-control" name="email" id="email"
+                                  placeholder="Email ID" onChange={handleFormFieldsChange} onInput={emailInputHandler} />
+                                <span className="mandatory-field">{errors["email"]}</span>
+                              </div>
+                            </div>
+
+                            <div className="col-sm-6">
+                              <div className="mb-4">
+                                <label htmlFor="email" className="form-label"> Company Address <span className="mandatory-field">*</span></label>
+                                <input type="text" className="form-control" name="email" id="email"
+                                  placeholder="Email ID" onChange={handleFormFieldsChange} onInput={emailInputHandler} />
+                                <span className="mandatory-field">{errors["email"]}</span>
+                              </div>
+                            </div>
+
+                            <div className="col-sm-6">
+                              <div className="mb-4">
+                                <label htmlFor="email" className="form-label"> Company State <span className="mandatory-field">*</span></label>
+                                <input type="text" className="form-control" name="email" id="email"
+                                  placeholder="Email ID" onChange={handleFormFieldsChange} onInput={emailInputHandler} />
+                                <span className="mandatory-field">{errors["email"]}</span>
+                              </div>
+                            </div>
+
+                            <div className="col-sm-6">
+                              <div className="mb-4">
+                                <label htmlFor="email" className="form-label"> Company City <span className="mandatory-field">*</span></label>
+                                <input type="text" className="form-control" name="email" id="email"
+                                  placeholder="Email ID" onChange={handleFormFieldsChange} onInput={emailInputHandler} />
+                                <span className="mandatory-field">{errors["email"]}</span>
+                              </div>
+                            </div>                    
+
+                          </div>
+                          <div className="text-end">
+                            <button type="submit" className="btn btn-primary btn-sm">Submit</button>
                           </div>
                         </form>
                       </div>

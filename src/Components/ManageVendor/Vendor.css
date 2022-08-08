@@ -1,0 +1,13 @@
+.personal-info, .legal-info{
+    margin-bottom: 25px;
+    font-size: 15px;
+    text-decoration: underline;
+    font-weight: bold;
+    color: #000;
+}
+#password-rule{
+    border: 0;
+}
+.password-div{
+    right: 30px!important;
+}
