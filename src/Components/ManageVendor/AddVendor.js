@@ -13,8 +13,10 @@ const AddVendor = () => {
   const navigate = useNavigate();
 
   const handleFormFieldsChange = event => {
+    //console.log(event.target.value);
     fields[event.target.name] = event.target.value;
     setFields(fields);
+    //console.log(fields);
   }
 
   function formValidate(){
@@ -221,7 +223,7 @@ const AddVendor = () => {
                       <div className="card-body">
                         <form method="post" onSubmit={submitForm}>
                           <div className="row">
-
+                            <h3>Vendor Personal Information</h3>
                             <div className="col-sm-6">
                               <div className="mb-4">
                                 <label htmlFor="vendorName" className="form-label"> Vendor Name <span className="mandatory-field">*</span> </label>

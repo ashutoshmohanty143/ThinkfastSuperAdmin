@@ -1,5 +1,5 @@
 import React , { useState, useEffect} from 'react';
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import swal from 'sweetalert';
 
 import ApiServices from '../Common/ApiServices';
@@ -10,7 +10,20 @@ const UpdateVendor = () => {
   const [fields, setFields] = useState({});
   const [errors, setErrors] = useState({});
 
+  const navigate = useNavigate();
   const location = useLocation();
+
+  const handleFormFieldsChange = event => {
+    //console.log(event.target.name);
+    //console.log(event.target.value);
+    //fields[event.target.name] = event.target.value;
+    setFields(fields => ({
+      ...fields,
+      [event.target.name] : event.target.value
+    }));
+    //console.log(fields);
+    // setFields(event.target.value);
+  }
 
   useEffect(() =>{ 
     const collectionName = "vendorusers";
@@ -18,20 +31,17 @@ const UpdateVendor = () => {
     // console.log(id);
     ApiServices.GetSingleRecordById(id, collectionName)
         .then((response) => {
-          setFields(response.data.data);
+          //console.log(response)
+          let fields = response.data.data;          
+          setFields(fields);
+          //console.log(fields);
         })
         .catch((error) => {
             console.log("error", error);
         });
   }, []);
 
-  const handleFormFieldsChange = event => {
-    console.log(event.target.value)
-    // let fields = fields; 
-    fields[event.target.name] = event.target.value;
-    setFields(fields);
-    // setFields(event.target.value);
-  }
+  
 
   function formValidate(){
     let errors = {};
@@ -52,10 +62,11 @@ const UpdateVendor = () => {
     }  else if (!CommonMethods.emailValidator(fields["email"])) {
       formIsValid = false;
       errors["email"] = "Please give valid email.";
-    } else if (fields["email"] != this.state.fields['email']){
-      formIsValid = false;
-      errors["email"] = "Email ID can't be changed.";
-    }
+    } 
+    // else if (fields["email"] != this.state.fields['email']){
+    //   formIsValid = false;
+    //   errors["email"] = "Email ID can't be changed.";
+    // }
 
     //Phone
     if (!fields["phone"]) {
@@ -93,9 +104,12 @@ const UpdateVendor = () => {
     event.preventDefault();
     if(formValidate()) {   
       let { vendorName, email, phone } = fields;
+      //console.log(vendorName);
+      //return false;
       // let finalPassword = window.btoa(password);
+      const id = location.state.vendor_id;
       let path = window.location.pathname;
-      let id = path.split('/')[2];
+      //let id = path.split('/')[2];
       const formData = {
           "collection" : "vendorusers",
           "id": id,
@@ -105,20 +119,24 @@ const UpdateVendor = () => {
                   "phone": phone
           },
           "meta" : {
-            "duplicate" : ["email","phone"],
-            "isPassword" : true,
-            "passwordKey" : "password"
+            "duplicate" : ["email"],
+            //"isPassword" : true,
+            //"passwordKey" : "password"
           }
       };   
+
+      //console.log(formData);return false;
       ApiServices.UpdateRecord(formData).then(response => {    
           if(response.status == 200 && response.data.status){
+            //console.log(125);
+            //console.log(response);
             swal({
                 title: "Thank you!",
                 text: `Vendor Updated successfully!!!`,
-                type: "success",
+                icon: "success",
             }).then((value) => {
                 if (value) {
-                    this.props.navigate('/vendors');
+                    navigate('/vendors');
                 }
             });
           }           
@@ -174,9 +192,7 @@ const UpdateVendor = () => {
                             <div className="col-sm-6">
                               <div className="mb-4">
                                 <label htmlFor="vendorName" className="form-label"> Vendor Name <span className="mandatory-field">*</span> </label>
-                                <input type="text" className="form-control" name="vendorName" id="vendorName"
-                                  placeholder="Store Name" onChange={handleFormFieldsChange} 
-                                  value={fields['vendorName'] || ''} />
+                                <input type="text" className="form-control" name="vendorName" id="vendorName" placeholder="Store Name" onChange={(e) => handleFormFieldsChange(e)} value={vendorName || ''} />
                                 <span className="mandatory-field">{errors["vendorName"]}</span>
                               </div>
                             </div>

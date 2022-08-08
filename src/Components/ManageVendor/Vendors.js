@@ -17,7 +17,7 @@ const Vendors = () => {
     }).catch(error => {
       console.log("error", error)
     });
-  }, [vendorLists]);
+  }, []);
 
   const handleEditRecord = (event, id) => {
       event.preventDefault();
