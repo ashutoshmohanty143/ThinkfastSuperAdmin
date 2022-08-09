@@ -221,7 +221,8 @@ const AddVendor = () => {
                   "companyAddress": companyAddress, 
                   "companyState": companyState, 
                   "companyCity": companyCity,
-                  "userType": "admin"
+                  "userType": "admin",
+                  "isActive": true
           },
           "meta" : {
               "duplicate" : ["email"],

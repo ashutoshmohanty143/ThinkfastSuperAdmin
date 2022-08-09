@@ -196,7 +196,7 @@ const UpdateVendor = () => {
           "companyWebsiteURL": companyWebsiteURL, 
           "companyAddress": companyAddress, 
           "companyState": companyState, 
-          "companyCity": companyCity,
+          "companyCity": companyCity
         },
         "meta": {
           "duplicate": ["email"],

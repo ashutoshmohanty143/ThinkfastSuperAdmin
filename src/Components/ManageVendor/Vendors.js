@@ -75,6 +75,38 @@ const Vendors = () => {
       });
   }
 
+  const handleStatusChange = (e, id, status) => {
+    e.preventDefault();
+    const formData = {
+      collection: "vendorusers",
+      id: id,
+      data: {
+        isActive: status ? false : true,
+      },
+      meta: {
+        duplicate: [],
+        multiInsert: false,
+      },
+    };
+    ApiServices.UpdateRecord(formData)
+      .then((response) => {
+        if (response.status == 200 && response.data.status == "success") {
+          swal({
+            title: "Thank you!",
+            text: `Vendor ${status ? "Blocked" : "Unblocked"} successfully!!!`,
+            type: "success",
+          }).then((value) => {
+            if (value) {
+              fetchAllData();
+            }
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  }
+
   return (
     <>
       <div className="content container-fluid">
@@ -313,6 +345,17 @@ const Vendors = () => {
 
                             <button
                               className="dropdown-item"
+                              onClick={(event) => handleStatusChange(event, item._id, item.isActive)}>
+                              <i className="bi bi-stop-circle dropdown-item-icon">
+                                {" "}
+                              </i>{" "}
+                              {item.isActive
+                                    ? "Block"
+                                    : "Unblock"}
+                            </button>
+
+                            <button
+                              className="dropdown-item"
                               onClick={(event) => handleEditRecord(event, item._id)}>
                               <i className="bi-pencil-fill dropdown-item-icon">
                                 {" "}
@@ -322,14 +365,7 @@ const Vendors = () => {
 
                             <button
                               className="dropdown-item"
-
-                              onClick={(event) =>
-                                handleDeleteRecord(
-                                  event,
-                                  item._id
-                                )
-                              }
-                            >
+                              onClick={(event) => handleDeleteRecord(event, item._id)}>
                               <i className="bi-trash dropdown-item-icon">
                                 {" "}
                               </i>{" "}
