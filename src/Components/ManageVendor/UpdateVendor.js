@@ -327,7 +327,7 @@ const UpdateVendor = () => {
 
                       <div className="col-sm-6">
                         <div className="mb-4">
-                          <label htmlFor="companyPhone" className="form-label"> Company Phone No. <span className="mandatory-field">*</span></label>
+                          <label htmlFor="companyPhone" className="form-label"> Company Phone No. </label>
                           <div className="input-group">
                             <input type="text" className="form-control" name="companyPhone" id="companyPhone" placeholder="Company Phone No."
                               onChange={handleFormFieldsChange} onInput={companyPhoneInputHandler} maxLength={12} value={fields['companyPhone'] || ''} />
@@ -338,7 +338,7 @@ const UpdateVendor = () => {
 
                       <div className="col-sm-6">
                         <div className="mb-4">
-                          <label htmlFor="companyEmail" className="form-label"> Company Email ID <span className="mandatory-field">*</span></label>
+                          <label htmlFor="companyEmail" className="form-label"> Company Email ID </label>
                           <input type="text" className="form-control" name="companyEmail" id="companyEmail"
                             placeholder="Company Email ID" onChange={handleFormFieldsChange} 
                             onInput={companyEmailInputHandler} value={fields['companyEmail'] || ''} />
@@ -349,7 +349,7 @@ const UpdateVendor = () => {
 
                       <div className="col-sm-6">
                         <div className="mb-4">
-                          <label htmlFor="companyCIN" className="form-label"> Company CIN <span className="mandatory-field">*</span></label>
+                          <label htmlFor="companyCIN" className="form-label"> Company CIN </label>
                           <input type="text" className="form-control" name="companyCIN" id="companyCIN"
                             placeholder="Company CIN" onChange={handleFormFieldsChange} value={fields['companyCIN'] || ''} />
                           <span className="mandatory-field">{errors["companyCIN"]}</span>
@@ -376,7 +376,7 @@ const UpdateVendor = () => {
 
                       <div className="col-sm-6">
                         <div className="mb-4">
-                          <label htmlFor="companyAddress" className="form-label"> Company Address <span className="mandatory-field">*</span></label>
+                          <label htmlFor="companyAddress" className="form-label"> Company Address </label>
                           <input type="text" className="form-control" name="companyAddress" id="companyAddress"
                             placeholder="Company Address" onChange={handleFormFieldsChange} value={fields['companyAddress'] || ''} />
                           <span className="mandatory-field">{errors["companyAddress"]}</span>
@@ -434,7 +434,7 @@ const UpdateVendor = () => {
 
                       <div className="col-sm-6">
                         <div className="mb-4">
-                          <label htmlFor="companyCity" className="form-label"> Company City <span className="mandatory-field">*</span></label>
+                          <label htmlFor="companyCity" className="form-label"> Company City </label>
                           <input type="text" className="form-control" name="companyCity" id="companyCity"
                             placeholder="Company City" onChange={handleFormFieldsChange} value={fields['companyCity'] || ''} />
                           <span className="mandatory-field">{errors["companyCity"]}</span>

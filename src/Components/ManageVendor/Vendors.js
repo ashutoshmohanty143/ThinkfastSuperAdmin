@@ -323,7 +323,7 @@ const Vendors = () => {
                           onClick={(event) => handleViewRecord(event, item._id)}
                         >
                           {" "}
-                          <i className="bi-pencil-fill me-1">
+                          <i className="bi bi-eye-fill me-1">
                             {" "}
                             View
                           </i>{" "}
@@ -344,6 +344,15 @@ const Vendors = () => {
 
                             <button
                               className="dropdown-item"
+                              onClick={(event) => handleEditRecord(event, item._id)}>
+                              <i className="bi-pencil-fill dropdown-item-icon">
+                                {" "}
+                              </i>{" "}
+                              Edit
+                            </button>
+
+                            <button
+                              className="dropdown-item"
                               onClick={(event) => handleStatusChange(event, item._id, item.isActive)}>
                               <i className="bi bi-stop-circle dropdown-item-icon">
                                 {" "}
@@ -351,15 +360,6 @@ const Vendors = () => {
                               {item.isActive
                                     ? "Block"
                                     : "Unblock"}
-                            </button>
-
-                            <button
-                              className="dropdown-item"
-                              onClick={(event) => handleEditRecord(event, item._id)}>
-                              <i className="bi-pencil-fill dropdown-item-icon">
-                                {" "}
-                              </i>{" "}
-                              Edit
                             </button>
 
                             <button
