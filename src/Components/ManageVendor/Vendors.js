@@ -67,7 +67,6 @@ const Vendors = () => {
     ApiServices.GetSingleRecordById(id, collectionName)
       .then((response) => {
         let fetchdata = response.data.data;
-        console.log(fetchdata)
         setSingleFetchRecord(fetchdata);
       })
       .catch((error) => {
@@ -495,6 +494,11 @@ const Vendors = () => {
                 <ul className="list-group list-group-horizontal p-2">
                   <li className="list-group-item w-50"><b>Company City</b></li>
                   <li className="list-group-item w-50">{singleFetchRecord["companyCity"]}</li>
+                </ul>
+
+                <ul className="list-group list-group-horizontal p-2">
+                  <li className="list-group-item w-50"><b>Company Pincode</b></li>
+                  <li className="list-group-item w-50">{singleFetchRecord["companyPincode"]}</li>
                 </ul>
 
               </div>

@@ -33,7 +33,6 @@ const UpdateVendor = () => {
       ...fields,
       [event.target.name]: event.target.value
     }));
-    console.log(fields['email']);
   }
 
 
@@ -77,28 +76,28 @@ const UpdateVendor = () => {
     } 
 
     //Company Phone
-    if (!fields["companyPhone"]) {
-      formIsValid = false;
-      errors["companyPhone"] = "Company Phone Cannot be empty";
-    } else if (fields["companyPhone"].length != 12) {
-      formIsValid = false;
-      errors["companyPhone"] = "Company Phone should be 10 digits.";
-    }
+    // if (!fields["companyPhone"]) {
+    //   formIsValid = false;
+    //   errors["companyPhone"] = "Company Phone Cannot be empty";
+    // } else if (fields["companyPhone"].length != 12) {
+    //   formIsValid = false;
+    //   errors["companyPhone"] = "Company Phone should be 10 digits.";
+    // }
 
     //Company Email
-    if (!fields["companyEmail"]) {
-      formIsValid = false;
-      errors["companyEmail"] = "Company Email Cannot be empty";
-    }  else if (!CommonMethods.emailValidator(fields["companyEmail"])) {
-      formIsValid = false;
-      errors["companyEmail"] = "Please enter company valid email.";
-    }
+    // if (!fields["companyEmail"]) {
+    //   formIsValid = false;
+    //   errors["companyEmail"] = "Company Email Cannot be empty";
+    // }  else if (!CommonMethods.emailValidator(fields["companyEmail"])) {
+    //   formIsValid = false;
+    //   errors["companyEmail"] = "Please enter company valid email.";
+    // }
 
     //Company CIN
-    if (!fields["companyCIN"]) {
-      formIsValid = false;
-      errors["companyCIN"] = "Company CIN Cannot be empty";
-    }  
+    // if (!fields["companyCIN"]) {
+    //   formIsValid = false;
+    //   errors["companyCIN"] = "Company CIN Cannot be empty";
+    // }  
 
     //Company GSTIN
     if (!fields["companyGSTIN"]) {
@@ -114,25 +113,33 @@ const UpdateVendor = () => {
 
 
     //Company Address
-    if (!fields["companyAddress"]) {
-      formIsValid = false;
-      errors["companyAddress"] = "Company Address Cannot be empty";
-    }  
+    // if (!fields["companyAddress"]) {
+    //   formIsValid = false;
+    //   errors["companyAddress"] = "Company Address Cannot be empty";
+    // }  
 
     //Company State
-    let cstate = document.querySelector('#companyState');
-    let stateValue = cstate.options.selectedIndex;
-    if (stateValue === 0) {
-        formIsValid = false;
-        errors["companyState"] = 'Please Select Company State';
-    } 
+    // let cstate = document.querySelector('#companyState');
+    // let stateValue = cstate.options.selectedIndex;
+    // if (stateValue === 0) {
+    //     formIsValid = false;
+    //     errors["companyState"] = 'Please Select Company State';
+    // } 
 
     //Company City
-    if (!fields["companyCity"]) {
-      formIsValid = false;
-      errors["companyCity"] = "Company City Cannot be empty";
-    }  
+    // if (!fields["companyCity"]) {
+    //   formIsValid = false;
+    //   errors["companyCity"] = "Company City Cannot be empty";
+    // }  
 
+    //Company Pincode
+    if (!fields["companyPincode"]) {
+      formIsValid = false;
+      errors["companyPincode"] = "Company Pincode Cannot be empty";
+    } else if (fields["companyPincode"].length != 6) {
+      formIsValid = false;
+      errors["companyPincode"] = "Company Pincode should be 6 digits";
+    }
 
     setErrors(errors);
     return formIsValid;
@@ -174,12 +181,21 @@ const UpdateVendor = () => {
     }
   }
 
+  //Company Pincode Validation  
+  const companyPincodeInputHandler = e => {
+    if(!CommonMethods.numberValidation(e)){
+      setErrors({ ...errors, companyPincode : "Please enter Only Numbers (Max 6)" });
+    } else {
+      setErrors({ ...errors, companyPincode : ""  });
+    }
+  }
+
 
   const submitForm = event => {
     event.preventDefault();
     if (formValidate()) {
-      let { vendorName, phone, companyName, companyPhone, companyEmail,
-        companyCIN, companyGSTIN, companyWebsiteURL, companyAddress, companyState, companyCity } = fields;
+      let { vendorName, phone, companyName, companyPhone, companyEmail, companyCIN, 
+        companyGSTIN, companyWebsiteURL, companyAddress, companyState, companyCity, companyPincode } = fields;
       const id = location.state.vendor_id;
       const formData = {
         "collection": "vendorusers",
@@ -196,7 +212,8 @@ const UpdateVendor = () => {
           "companyWebsiteURL": companyWebsiteURL, 
           "companyAddress": companyAddress, 
           "companyState": companyState, 
-          "companyCity": companyCity
+          "companyCity": companyCity,
+          "companyPincode": companyPincode
         },
         "meta": {
           "duplicate": ["email"],
@@ -423,6 +440,16 @@ const UpdateVendor = () => {
                           <span className="mandatory-field">{errors["companyCity"]}</span>
                         </div>
                       </div>
+
+                      <div className="col-sm-6">
+                              <div className="mb-4">
+                                <label htmlFor="companyPincode" className="form-label"> Company Pincode <span className="mandatory-field">*</span> </label>
+                                <input type="text" className="form-control" name="companyPincode" id="companyPincode"
+                                  placeholder="Company Pincode" onChange={handleFormFieldsChange} 
+                                  onInput={companyPincodeInputHandler} maxLength={6} value={fields['companyPincode'] || ''} />
+                                <span className="mandatory-field">{errors["companyPincode"]}</span>
+                              </div>
+                            </div>
 
                     </div>
                     <div className="text-end">

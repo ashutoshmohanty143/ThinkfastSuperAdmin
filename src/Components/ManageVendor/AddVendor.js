@@ -77,28 +77,36 @@ const AddVendor = () => {
     } 
 
     //Company Phone
-    if (!fields["companyPhone"]) {
-      formIsValid = false;
-      errors["companyPhone"] = "Company Phone Cannot be empty";
-    } else if (fields["companyPhone"].length != 12) {
-      formIsValid = false;
-      errors["companyPhone"] = "Company Phone should be 10 digits.";
-    }
+    // if (!fields["companyPhone"]) {
+    //   formIsValid = false;
+    //   errors["companyPhone"] = "Company Phone Cannot be empty";
+    // } else if (fields["companyPhone"].length != 12) {
+    //   formIsValid = false;
+    //   errors["companyPhone"] = "Company Phone should be 10 digits.";
+    // }
+    // if (fields["companyPhone"].length != 12) {
+    //   formIsValid = false;
+    //   errors["companyPhone"] = "Company Phone should be 10 digits.";
+    // }
 
     //Company Email
-    if (!fields["companyEmail"]) {
-      formIsValid = false;
-      errors["companyEmail"] = "Company Email Cannot be empty";
-    }  else if (!CommonMethods.emailValidator(fields["companyEmail"])) {
-      formIsValid = false;
-      errors["companyEmail"] = "Please enter company valid email.";
-    }
+    // if (!fields["companyEmail"]) {
+    //   formIsValid = false;
+    //   errors["companyEmail"] = "Company Email Cannot be empty";
+    // }  else if (!CommonMethods.emailValidator(fields["companyEmail"])) {
+    //   formIsValid = false;
+    //   errors["companyEmail"] = "Please enter company valid email.";
+    // }
+    // if (!CommonMethods.emailValidator(fields["companyEmail"])) {
+    //   formIsValid = false;
+    //   errors["companyEmail"] = "Please enter company valid email.";
+    // }
 
     //Company CIN
-    if (!fields["companyCIN"]) {
-      formIsValid = false;
-      errors["companyCIN"] = "Company CIN Cannot be empty";
-    }  
+    // if (!fields["companyCIN"]) {
+    //   formIsValid = false;
+    //   errors["companyCIN"] = "Company CIN Cannot be empty";
+    // }  
 
     //Company GSTIN
     if (!fields["companyGSTIN"]) {
@@ -113,24 +121,33 @@ const AddVendor = () => {
     }  
 
     //Company Address
-    if (!fields["companyAddress"]) {
-      formIsValid = false;
-      errors["companyAddress"] = "Company Address Cannot be empty";
-    }  
+    // if (!fields["companyAddress"]) {
+    //   formIsValid = false;
+    //   errors["companyAddress"] = "Company Address Cannot be empty";
+    // }  
 
     //Company State
-    let cstate = document.querySelector('#companyState');
-    let stateValue = cstate.options.selectedIndex;
-    if (stateValue === 0) {
-        formIsValid = false;
-        errors["companyState"] = 'Please Select Company State';
-    } 
+    // let cstate = document.querySelector('#companyState');
+    // let stateValue = cstate.options.selectedIndex;
+    // if (stateValue === 0) {
+    //     formIsValid = false;
+    //     errors["companyState"] = 'Please Select Company State';
+    // } 
 
     //Company City
-    if (!fields["companyCity"]) {
+    // if (!fields["companyCity"]) {
+    //   formIsValid = false;
+    //   errors["companyCity"] = "Company City Cannot be empty";
+    // }  
+
+    //Company Pincode
+    if (!fields["companyPincode"]) {
       formIsValid = false;
-      errors["companyCity"] = "Company City Cannot be empty";
-    }  
+      errors["companyPincode"] = "Company Pincode Cannot be empty";
+    } else if (fields["companyPincode"].length != 6) {
+      formIsValid = false;
+      errors["companyPincode"] = "Company Pincode should be 6 digits";
+    }
 
 
     setErrors(errors);
@@ -149,9 +166,9 @@ const AddVendor = () => {
   //Company Email Validating
   const companyEmailInputHandler = (e) =>{
     if (!CommonMethods.emailValidator(e.target.value)) {
-      setErrors({ ...errors, companyEmail : "Please enter valid company email"  });
+      setErrors({ ...errors, companyEmail : "Please enter valid company email" });
     } else {
-      setErrors({ ...errors, companyEmail : ""  });
+      setErrors({ ...errors, companyEmail : "" });
     }
   }
 
@@ -170,6 +187,15 @@ const AddVendor = () => {
       setErrors({ ...errors, companyPhone : "Please enter Only Numbers"  });
     } else {
       setErrors({ ...errors, companyPhone : ""  });
+    }
+  }
+
+  //Company Pincode Validation  
+  const companyPincodeInputHandler = e => {
+    if(!CommonMethods.numberValidation(e)){
+      setErrors({ ...errors, companyPincode : "Please enter Only Numbers (Max 6)" });
+    } else {
+      setErrors({ ...errors, companyPincode : ""  });
     }
   }
   
@@ -200,11 +226,11 @@ const AddVendor = () => {
 
   const submitForm = event => {
     event.preventDefault();
-    if(formValidate()) {   
-      let { vendorName, email, phone, password, companyName, companyPhone, companyEmail,
-        companyCIN, companyGSTIN, companyWebsiteURL, companyAddress, companyState, companyCity } = fields;
-      // let finalPassword = window.btoa(password);
-      // console.log(finalPassword);
+    if(formValidate()) {  
+      console.log('first') 
+      let { vendorName, email, phone, password, 
+        companyName, companyPhone, companyEmail, companyCIN, companyGSTIN, 
+        companyWebsiteURL, companyAddress, companyState, companyCity, companyPincode } = fields;
       const formData = {
           "collection" : "vendorusers",
           "data": {
@@ -221,6 +247,7 @@ const AddVendor = () => {
                   "companyAddress": companyAddress, 
                   "companyState": companyState, 
                   "companyCity": companyCity,
+                  "companyPincode": companyPincode,
                   "userType": "admin",
                   "isActive": true
           },
@@ -242,7 +269,6 @@ const AddVendor = () => {
                 if(value){
                     navigate('/addvendor');
                     errors["email"] = "Vendor email ID is already exist";
-
                 }
               });
           }    
@@ -380,7 +406,7 @@ const AddVendor = () => {
 
                             <div className="col-sm-6">
                               <div className="mb-4">
-                                <label htmlFor="companyPhone" className="form-label"> Company Phone No. <span className="mandatory-field">*</span></label>
+                                <label htmlFor="companyPhone" className="form-label"> Company Phone No. </label>
                                 <div className="input-group">
                                   <input type="text" className="form-control" name="companyPhone" id="companyPhone" placeholder="Company Phone No." 
                                   onChange={handleFormFieldsChange} onInput={companyPhoneInputHandler} maxLength={12}/>
@@ -391,7 +417,7 @@ const AddVendor = () => {
 
                             <div className="col-sm-6">
                               <div className="mb-4">
-                                <label htmlFor="companyEmail" className="form-label"> Company Email ID <span className="mandatory-field">*</span></label>
+                                <label htmlFor="companyEmail" className="form-label"> Company Email ID </label>
                                 <input type="text" className="form-control" name="companyEmail" id="companyEmail"
                                   placeholder="Company Email ID" onChange={handleFormFieldsChange} onInput={companyEmailInputHandler} />
                                 <span className="mandatory-field">{errors["companyEmail"]}</span>
@@ -401,7 +427,7 @@ const AddVendor = () => {
                             
                             <div className="col-sm-6">
                               <div className="mb-4">
-                                <label htmlFor="companyCIN" className="form-label"> Company CIN <span className="mandatory-field">*</span></label>
+                                <label htmlFor="companyCIN" className="form-label"> Company CIN </label>
                                 <input type="text" className="form-control" name="companyCIN" id="companyCIN"
                                   placeholder="Company CIN" onChange={handleFormFieldsChange} />
                                 <span className="mandatory-field">{errors["companyCIN"]}</span>
@@ -428,7 +454,7 @@ const AddVendor = () => {
 
                             <div className="col-sm-6">
                               <div className="mb-4">
-                                <label htmlFor="companyAddress" className="form-label"> Company Address <span className="mandatory-field">*</span></label>
+                                <label htmlFor="companyAddress" className="form-label"> Company Address </label>
                                 <input type="text" className="form-control" name="companyAddress" id="companyAddress"
                                   placeholder="Company Address" onChange={handleFormFieldsChange} />
                                 <span className="mandatory-field">{errors["companyAddress"]}</span>
@@ -486,10 +512,20 @@ const AddVendor = () => {
 
                             <div className="col-sm-6">
                               <div className="mb-4">
-                                <label htmlFor="companyCity" className="form-label"> Company City <span className="mandatory-field">*</span></label>
+                                <label htmlFor="companyCity" className="form-label"> Company City </label>
                                 <input type="text" className="form-control" name="companyCity" id="companyCity"
                                   placeholder="Company City" onChange={handleFormFieldsChange} />
                                 <span className="mandatory-field">{errors["companyCity"]}</span>
+                              </div>
+                            </div>
+
+                            <div className="col-sm-6">
+                              <div className="mb-4">
+                                <label htmlFor="companyPincode" className="form-label"> Company Pincode <span className="mandatory-field">*</span> </label>
+                                <input type="text" className="form-control" name="companyPincode" id="companyPincode"
+                                  placeholder="Company Pincode" onChange={handleFormFieldsChange} 
+                                  onInput={companyPincodeInputHandler} maxLength={6} />
+                                <span className="mandatory-field">{errors["companyPincode"]}</span>
                               </div>
                             </div>                    
 
