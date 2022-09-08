@@ -293,12 +293,15 @@ const Vendors = () => {
               }'>
               <thead className="thead-light">
                 <tr>
-                  <th scope="col" className="table-column-pe-0">
+                  <th >
                     SL No.
                   </th>
-                  <th className="table-column-ps-0">Vendor Name</th>
+                  <th>Vendor Name</th>
                   <th>E-mail</th>
                   <th>Phone</th>
+                  <th>Company Name</th>
+                  <th>Website URL</th>
+                  <th>State</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -315,6 +318,9 @@ const Vendors = () => {
                     </td>
                     <td>{item.email}</td>
                     <td>{item.phone}</td>
+                    <td>{item.companyName}</td>
+                    <td>{item.companyWebsiteURL}</td>
+                    <td>{item.companyState}</td>
                     <td>
                       <div className="btn-group" role="group">
 

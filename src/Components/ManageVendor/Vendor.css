@@ -11,3 +11,15 @@
 .password-div{
     right: 30px!important;
 }
+
+.green-check{
+    color: #35bd35;
+    /* line-height: 2.70;
+    z-index: 9999;
+    margin-left: -30px !important; */
+    display: none;
+}
+
+/* th {
+    text-align: center;
+} */

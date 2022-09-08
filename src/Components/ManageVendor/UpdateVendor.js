@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 
-import ApiServices from '../Common/ApiServices';
-import CommonMethods from '../Common/CommonMethods';
+import ApiServices from "../Common/ApiServices";
+import CommonMethods from "../Common/CommonMethods";
 
 const UpdateVendor = () => {
-
   const [fields, setFields] = useState({});
   const [errors, setErrors] = useState({});
 
@@ -24,18 +23,14 @@ const UpdateVendor = () => {
       .catch((error) => {
         console.log("error", error);
       });
-      
   }, []);
 
-
-  const handleFormFieldsChange = event => {
-    setFields(fields => ({
+  const handleFormFieldsChange = (event) => {
+    setFields((fields) => ({
       ...fields,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     }));
-  }
-
-
+  };
 
   function formValidate() {
     let errors = {};
@@ -44,26 +39,26 @@ const UpdateVendor = () => {
     //Vendor Name
     if (!fields["vendorName"]) {
       formIsValid = false;
-      errors["vendorName"] = "Vendor Name Cannot be empty";
-    } 
+      errors["vendorName"] = "Vendor name can not be empty";
+    }
 
     //Email
     if (!fields["email"]) {
       formIsValid = false;
-      errors["email"] = "Email Cannot be empty";
+      errors["email"] = "Email cannot be empty";
     } else if (!CommonMethods.emailValidator(fields["email"])) {
       formIsValid = false;
-      errors["email"] = "Please give valid email.";
+      errors["email"] = "Please enter a valid email.";
     }
     // else if (fields["email"] != this.state.fields['email']){
     //   formIsValid = false;
-    //   errors["email"] = "Email ID can't be changed.";
+    //   errors["email"] = "Email can't be changed.";
     // }
 
     //Phone
     if (!fields["phone"]) {
       formIsValid = false;
-      errors["phone"] = "Phone Cannot be empty";
+      errors["phone"] = "Phone cannot be empty";
     } else if (fields["phone"].length != 12) {
       formIsValid = false;
       errors["phone"] = "Phone should be 10 digits.";
@@ -72,22 +67,22 @@ const UpdateVendor = () => {
     //Company Name
     if (!fields["companyName"]) {
       formIsValid = false;
-      errors["companyName"] = "Company Name Cannot be empty";
-    } 
+      errors["companyName"] = "Company name can not be empty";
+    }
 
     //Company Phone
     // if (!fields["companyPhone"]) {
     //   formIsValid = false;
-    //   errors["companyPhone"] = "Company Phone Cannot be empty";
+    //   errors["companyPhone"] = "Company phone cannot be empty";
     // } else if (fields["companyPhone"].length != 12) {
     //   formIsValid = false;
-    //   errors["companyPhone"] = "Company Phone should be 10 digits.";
+    //   errors["companyPhone"] = "Company phone should be 10 digits.";
     // }
 
     //Company Email
     // if (!fields["companyEmail"]) {
     //   formIsValid = false;
-    //   errors["companyEmail"] = "Company Email Cannot be empty";
+    //   errors["companyEmail"] = "Company email cannot be empty";
     // }  else if (!CommonMethods.emailValidator(fields["companyEmail"])) {
     //   formIsValid = false;
     //   errors["companyEmail"] = "Please enter company valid email.";
@@ -96,151 +91,177 @@ const UpdateVendor = () => {
     //Company CIN
     // if (!fields["companyCIN"]) {
     //   formIsValid = false;
-    //   errors["companyCIN"] = "Company CIN Cannot be empty";
-    // }  
+    //   errors["companyCIN"] = "Company CIN cannot be empty";
+    // }
 
     //Company GSTIN
     if (!fields["companyGSTIN"]) {
       formIsValid = false;
-      errors["companyGSTIN"] = "Company GSTIN Cannot be empty";
-    }  
+      errors["companyGSTIN"] = "Company GSTIN can not be empty";
+    }
 
-     //Company Website URL
-     if (!fields["companyWebsiteURL"]) {
+    //Company Website URL
+    if (!fields["companyWebsiteURL"]) {
       formIsValid = false;
-      errors["companyWebsiteURL"] = "Company Website URL Cannot be empty";
-    }  
-
+      errors["companyWebsiteURL"] = "Company website URL cannot be empty";
+    }
 
     //Company Address
     // if (!fields["companyAddress"]) {
     //   formIsValid = false;
-    //   errors["companyAddress"] = "Company Address Cannot be empty";
-    // }  
+    //   errors["companyAddress"] = "Company address cannot be empty";
+    // }
+
+    //Company Pincode
+    if (!fields["companyPincode"]) {
+      formIsValid = false;
+      errors["companyPincode"] = "Company pincode can not be empty";
+    } else if (fields["companyPincode"].length != 6) {
+      formIsValid = false;
+      errors["companyPincode"] = "Company pincode should be 6 digits";
+    }
 
     //Company State
     // let cstate = document.querySelector('#companyState');
     // let stateValue = cstate.options.selectedIndex;
     // if (stateValue === 0) {
     //     formIsValid = false;
-    //     errors["companyState"] = 'Please Select Company State';
-    // } 
+    //     errors["companyState"] = 'Please select company state';
+    // }
 
     //Company City
     // if (!fields["companyCity"]) {
     //   formIsValid = false;
-    //   errors["companyCity"] = "Company City Cannot be empty";
-    // }  
-
-    //Company Pincode
-    if (!fields["companyPincode"]) {
-      formIsValid = false;
-      errors["companyPincode"] = "Company Pincode Cannot be empty";
-    } else if (fields["companyPincode"].length != 6) {
-      formIsValid = false;
-      errors["companyPincode"] = "Company Pincode should be 6 digits";
-    }
+    //   errors["companyCity"] = "Company city cannot be empty";
+    // }
 
     setErrors(errors);
     return formIsValid;
   }
 
   //Vendor Email Validating
-  const emailInputHandler = (e) =>{
+  const emailInputHandler = (e) => {
     if (!CommonMethods.emailValidator(e.target.value)) {
-      setErrors({ ...errors, email : "Please enter valid email"  }); 
+      setErrors({ ...errors, email: "Please enter valid email" });
     } else {
-      setErrors({ ...errors, email : ""  }); 
+      setErrors({ ...errors, email: "" });
     }
-  }   
+  };
 
   //Company Email Validating
-  const companyEmailInputHandler = (e) =>{
+  const companyEmailInputHandler = (e) => {
     if (!CommonMethods.emailValidator(e.target.value)) {
-      setErrors({ ...errors, companyEmail : "Please enter valid company email"  });
+      setErrors({
+        ...errors,
+        companyEmail: "Please enter valid company email",
+      });
     } else {
-      setErrors({ ...errors, companyEmail : ""  });
+      setErrors({ ...errors, companyEmail: "" });
     }
+  };
+
+  //Vendor Phone Masking
+  const phoneInputHandler = (e) => {
+    if (!CommonMethods.phoneMasking(e)) {
+      setErrors({ ...errors, phone: " Please enter only numeric value " });
+    } else {
+      setErrors({ ...errors, phone: "" });
+    }
+  };
+
+  //Company Phone Masking
+  const companyPhoneInputHandler = (e) => {
+    if (!CommonMethods.phoneMasking(e)) {
+      setErrors({
+        ...errors,
+        companyPhone: "Please enter only numeric value ",
+      });
+    } else {
+      setErrors({ ...errors, companyPhone: "" });
+    }
+  };
+
+  //Company Pincode Validation
+  const companyPincodeInputHandler = (e) => {
+    if (!CommonMethods.numberValidation(e)) {
+      setErrors({
+        ...errors,
+        companyPincode: "Please enter only numeric value (Max 6)",
+      });
+    } else {
+      setErrors({ ...errors, companyPincode: "" });
+    }
+  };
+
+  //State Select Handler
+  const stateSelectHandler = (e) =>{
+    
   }
 
-  //Vendor Phone Masking  
-  const phoneInputHandler = e => {
-    if(!CommonMethods.phoneMasking(e)){
-      setErrors({ ...errors, phone : "Please enter Only Numbers"  });
-    } else {
-      setErrors({ ...errors, phone : ""  });
-    }
-  }
-
-  //Company Phone Masking  
-  const companyPhoneInputHandler = e => {
-    if(!CommonMethods.phoneMasking(e)){
-      setErrors({ ...errors, companyPhone : "Please enter Only Numbers"  });
-    } else {
-      setErrors({ ...errors, companyPhone : ""  });
-    }
-  }
-
-  //Company Pincode Validation  
-  const companyPincodeInputHandler = e => {
-    if(!CommonMethods.numberValidation(e)){
-      setErrors({ ...errors, companyPincode : "Please enter Only Numbers (Max 6)" });
-    } else {
-      setErrors({ ...errors, companyPincode : ""  });
-    }
-  }
-
-
-  const submitForm = event => {
+  const submitForm = (event) => {
     event.preventDefault();
     if (formValidate()) {
-      let { vendorName, phone, companyName, companyPhone, companyEmail, companyCIN, 
-        companyGSTIN, companyWebsiteURL, companyAddress, companyState, companyCity, companyPincode } = fields;
+      let {
+        vendorName,
+        phone,
+        companyName,
+        companyPhone,
+        companyEmail,
+        companyCIN,
+        companyGSTIN,
+        companyWebsiteURL,
+        companyAddress,
+        companyState,
+        companyCity,
+        companyPincode,
+      } = fields;
       const id = location.state.vendor_id;
       const formData = {
-        "collection": "vendorusers",
-        "id": id,
-        "data": {
-          "vendorName": vendorName,
+        collection: "vendorusers",
+        id: id,
+        data: {
+          vendorName: vendorName,
           // "email": email,
-          "phone": phone,
-          "companyName": companyName, 
-          "companyPhone": companyPhone, 
-          "companyEmail": companyEmail,
-          "companyCIN": companyCIN, 
-          "companyGSTIN": companyGSTIN, 
-          "companyWebsiteURL": companyWebsiteURL, 
-          "companyAddress": companyAddress, 
-          "companyState": companyState, 
-          "companyCity": companyCity,
-          "companyPincode": companyPincode
+          phone: phone,
+          companyName: companyName,
+          companyPhone: companyPhone,
+          companyEmail: companyEmail,
+          companyCIN: companyCIN,
+          companyGSTIN: companyGSTIN,
+          companyWebsiteURL: companyWebsiteURL,
+          companyAddress: companyAddress,
+          companyState: companyState,
+          companyCity: companyCity,
+          companyPincode: companyPincode,
         },
-        "meta": {
-          "duplicate": ["email"],
+        meta: {
+          duplicate: ["email"],
           //"isPassword" : true,
           //"passwordKey" : "password"
-        }
+        },
       };
 
-      ApiServices.UpdateRecord(formData).then(response => {
-        if (response.status == 200 && response.data.status) {
-          swal({
-            title: "Thank you!",
-            text: `Vendor Updated successfully!!!`,
-            icon: "success",
-          }).then((value) => {
-            if (value) {
-              navigate('/vendors');
-            }
-          });
-        }
-      }).catch(error => {
-        console.log(error);
-      });;
+      ApiServices.UpdateRecord(formData)
+        .then((response) => {
+          if (response.status == 200 && response.data.status) {
+            swal({
+              title: "Thank you!",
+              text: `Vendor updated successfully!!!`,
+              icon: "success",
+            }).then((value) => {
+              if (value) {
+                navigate("/vendors");
+              }
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } else {
-      console.log("Form Validation Error");
+      console.log("Form validation error");
     }
-  }
+  };
 
   return (
     <>
@@ -255,15 +276,13 @@ const UpdateVendor = () => {
                       Vendors
                     </Link>
                   </li>
-                  <li
-                    className="breadcrumb-item active"
-                    aria-current="page">
-                    Update Vendor
+                  <li className="breadcrumb-item active" aria-current="page">
+                    Update vendor
                   </li>
                 </ol>
               </nav>
 
-              <h1 className="page-header-title">Update Vendor</h1>
+              <h1 className="page-header-title">Update vendor</h1>
             </div>
           </div>
         </div>
@@ -272,190 +291,384 @@ const UpdateVendor = () => {
           <div className="col-lg-12 mb-3 mb-lg-0">
             <div className="card mb-3 mb-lg-5">
               <div className="card-header">
-                <h4 className="card-header-title">
-                  Update Vendor Information
-                </h4>
+                <h4 className="card-header-title">Update vendor information</h4>
               </div>
 
               <div className="card-body">
                 <form method="post" onSubmit={submitForm}>
                   <div className="row">
                     <div className="row">
-                      <span className='personal-info'>Vendor Personal Information</span>
+                      <span className="personal-info">
+                        Vendor personal information
+                      </span>
                       <div className="col-sm-6">
                         <div className="mb-4">
-                          <label htmlFor="vendorName" className="form-label"> Vendor Name <span className="mandatory-field">*</span> </label>
-                          <input type="text" className="form-control" name="vendorName" id="vendorName" placeholder="Store Name" 
-                          onChange={(e) => handleFormFieldsChange(e)} value={fields['vendorName'] || ''} />
-                          <span className="mandatory-field">{errors["vendorName"]}</span>
+                          <label htmlFor="vendorName" className="form-label">
+                            {" "}
+                            Vendor name{" "}
+                            <span className="mandatory-field">*</span>{" "}
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="vendorName"
+                            id="vendorName"
+                            placeholder="Vendor name"
+                            onChange={(e) => handleFormFieldsChange(e)}
+                            value={fields["vendorName"] || ""}
+                          />
+                          <span className="mandatory-field">
+                            {errors["vendorName"]}
+                          </span>
                         </div>
                       </div>
 
                       <div className="col-sm-6">
                         <div className="mb-4">
-                          <label htmlFor="email" className="form-label"> Email ID <span className="mandatory-field">*</span></label>
-                          <input type="text" className="form-control" name="email" id="email"
-                            placeholder="Email ID" onChange={handleFormFieldsChange}
-                            onInput={emailInputHandler} value={fields['email'] || ''} disabled={true} />
-                          <span className="mandatory-field">{errors["email"]}</span>
+                          <label htmlFor="email" className="form-label">
+                            {" "}
+                            Email id <span className="mandatory-field">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="email"
+                            id="email"
+                            placeholder="Email id"
+                            onChange={handleFormFieldsChange}
+                            onInput={emailInputHandler}
+                            value={fields["email"] || ""}
+                            disabled={true}
+                          />
+                          <span className="mandatory-field">
+                            {errors["email"]}
+                          </span>
                         </div>
                       </div>
 
-
                       <div className="col-sm-6">
                         <div className="mb-4">
-                          <label htmlFor="phone" className="form-label"> Phone No. <span className="mandatory-field">*</span></label>
+                          <label htmlFor="phone" className="form-label">
+                            {" "}
+                            Phone no. <span className="mandatory-field">*</span>
+                          </label>
                           <div className="input-group">
-                            <input type="text" className="form-control" name="phone" id="phone"
-                              placeholder="Phone No." onChange={handleFormFieldsChange}
-                              onInput={phoneInputHandler} maxLength={12} value={fields['phone'] || ''} />
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="phone"
+                              id="phone"
+                              placeholder="Phone no."
+                              onChange={handleFormFieldsChange}
+                              onInput={phoneInputHandler}
+                              maxLength={12}
+                              value={fields["phone"] || ""}
+                            />
                           </div>
-                          <span className="mandatory-field">{errors["phone"]}</span>
+                          <span className="mandatory-field">
+                            {errors["phone"]}
+                          </span>
                         </div>
                       </div>
                     </div>
-                    <div className='row'>
-                      <span className='personal-info'>Vendor Legal Information</span>
+                    <div className="row">
+                      <span className="personal-info">
+                        Vendor legal information
+                      </span>
                       <div className="col-sm-6">
                         <div className="mb-4">
-                          <label htmlFor="companyName" className="form-label"> Company Name <span className="mandatory-field">*</span> </label>
-                          <input type="text" className="form-control" name="companyName" id="companyName"
-                            placeholder="Company Name" onChange={handleFormFieldsChange} value={fields['companyName'] || ''} />
-                          <span className="mandatory-field">{errors["companyName"]}</span>
+                          <label htmlFor="companyName" className="form-label">
+                            {" "}
+                            Company name{" "}
+                            <span className="mandatory-field">*</span>{" "}
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="companyName"
+                            id="companyName"
+                            placeholder="Company name"
+                            onChange={handleFormFieldsChange}
+                            value={fields["companyName"] || ""}
+                          />
+                          <span className="mandatory-field">
+                            {errors["companyName"]}
+                          </span>
                         </div>
                       </div>
 
                       <div className="col-sm-6">
                         <div className="mb-4">
-                          <label htmlFor="companyPhone" className="form-label"> Company Phone No. </label>
+                          <label htmlFor="companyPhone" className="form-label">
+                            {" "}
+                            Company phone no.{" "}
+                          </label>
                           <div className="input-group">
-                            <input type="text" className="form-control" name="companyPhone" id="companyPhone" placeholder="Company Phone No."
-                              onChange={handleFormFieldsChange} onInput={companyPhoneInputHandler} maxLength={12} value={fields['companyPhone'] || ''} />
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="companyPhone"
+                              id="companyPhone"
+                              placeholder="Company phone no."
+                              onChange={handleFormFieldsChange}
+                              onInput={companyPhoneInputHandler}
+                              maxLength={12}
+                              value={fields["companyPhone"] || ""}
+                            />
                           </div>
-                          <span className="mandatory-field">{errors["companyPhone"]}</span>
+                          <span className="mandatory-field">
+                            {errors["companyPhone"]}
+                          </span>
                         </div>
                       </div>
 
                       <div className="col-sm-6">
                         <div className="mb-4">
-                          <label htmlFor="companyEmail" className="form-label"> Company Email ID </label>
-                          <input type="text" className="form-control" name="companyEmail" id="companyEmail"
-                            placeholder="Company Email ID" onChange={handleFormFieldsChange} 
-                            onInput={companyEmailInputHandler} value={fields['companyEmail'] || ''} />
-                          <span className="mandatory-field">{errors["companyEmail"]}</span>
-                        </div>
-                      </div>
-
-
-                      <div className="col-sm-6">
-                        <div className="mb-4">
-                          <label htmlFor="companyCIN" className="form-label"> Company CIN </label>
-                          <input type="text" className="form-control" name="companyCIN" id="companyCIN"
-                            placeholder="Company CIN" onChange={handleFormFieldsChange} value={fields['companyCIN'] || ''} />
-                          <span className="mandatory-field">{errors["companyCIN"]}</span>
-                        </div>
-                      </div>
-
-                      <div className="col-sm-6">
-                        <div className="mb-4">
-                          <label htmlFor="companyGSTIN" className="form-label"> Company GSTIN <span className="mandatory-field">*</span></label>
-                          <input type="text" className="form-control" name="companyGSTIN" id="companyGSTIN"
-                            placeholder="Company GSTIN" onChange={handleFormFieldsChange} value={fields['companyGSTIN'] || ''} />
-                          <span className="mandatory-field">{errors["companyGSTIN"]}</span>
+                          <label htmlFor="companyEmail" className="form-label">
+                            {" "}
+                            Company Email ID{" "}
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="companyEmail"
+                            id="companyEmail"
+                            placeholder="Company email id"
+                            onChange={handleFormFieldsChange}
+                            onInput={companyEmailInputHandler}
+                            value={fields["companyEmail"] || ""}
+                          />
+                          <span className="mandatory-field">
+                            {errors["companyEmail"]}
+                          </span>
                         </div>
                       </div>
 
                       <div className="col-sm-6">
                         <div className="mb-4">
-                          <label htmlFor="companyWebsiteURL" className="form-label"> Company Website URL <span className="mandatory-field">*</span></label>
-                          <input type="text" className="form-control" name="companyWebsiteURL" id="companyWebsiteURL"
-                            placeholder="Company Website URL" onChange={handleFormFieldsChange} value={fields['companyWebsiteURL'] || ''} />
-                          <span className="mandatory-field">{errors["companyWebsiteURL"]}</span>
+                          <label htmlFor="companyCIN" className="form-label">
+                            {" "}
+                            Company CIN{" "}
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="companyCIN"
+                            id="companyCIN"
+                            placeholder="Company CIN"
+                            onChange={handleFormFieldsChange}
+                            value={fields["companyCIN"] || ""}
+                          />
+                          <span className="mandatory-field">
+                            {errors["companyCIN"]}
+                          </span>
                         </div>
                       </div>
 
                       <div className="col-sm-6">
                         <div className="mb-4">
-                          <label htmlFor="companyAddress" className="form-label"> Company Address </label>
-                          <input type="text" className="form-control" name="companyAddress" id="companyAddress"
-                            placeholder="Company Address" onChange={handleFormFieldsChange} value={fields['companyAddress'] || ''} />
-                          <span className="mandatory-field">{errors["companyAddress"]}</span>
+                          <label htmlFor="companyGSTIN" className="form-label">
+                            {" "}
+                            Company GSTIN{" "}
+                            <span className="mandatory-field">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="companyGSTIN"
+                            id="companyGSTIN"
+                            placeholder="Company GSTIN"
+                            onChange={handleFormFieldsChange}
+                            value={fields["companyGSTIN"] || ""}
+                          />
+                          <span className="mandatory-field">
+                            {errors["companyGSTIN"]}
+                          </span>
                         </div>
                       </div>
 
                       <div className="col-sm-6">
                         <div className="mb-4">
-                          <label htmlFor="companyState" className="form-label">Select Company State</label>
+                          <label
+                            htmlFor="companyWebsiteURL"
+                            className="form-label"
+                          >
+                            {" "}
+                            Company website URL{" "}
+                            <span className="mandatory-field">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="companyWebsiteURL"
+                            id="companyWebsiteURL"
+                            placeholder="Company website URL"
+                            onChange={handleFormFieldsChange}
+                            value={fields["companyWebsiteURL"] || ""}
+                          />
+                          <span className="mandatory-field">
+                            {errors["companyWebsiteURL"]}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="col-sm-6">
+                        <div className="mb-4">
+                          <label
+                            htmlFor="companyAddress"
+                            className="form-label"
+                          >
+                            {" "}
+                            Company address{" "}
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="companyAddress"
+                            id="companyAddress"
+                            placeholder="Company address"
+                            onChange={handleFormFieldsChange}
+                            value={fields["companyAddress"] || ""}
+                          />
+                          <span className="mandatory-field">
+                            {errors["companyAddress"]}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="col-sm-6">
+                        <div className="mb-4">
+                          <label
+                            htmlFor="companyPincode"
+                            className="form-label"
+                          >
+                            {" "}
+                            Company pincode{" "}
+                            <span className="mandatory-field">*</span>{" "}
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="companyPincode"
+                            id="companyPincode"
+                            placeholder="Company pincode"
+                            onChange={handleFormFieldsChange}
+                            onInput={companyPincodeInputHandler}
+                            onMouseOut={stateSelectHandler}
+                            maxLength={6}
+                            value={fields["companyPincode"] || ""}
+                          />
+                          <span className="mandatory-field">
+                            {errors["companyPincode"]}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                      <div className="col-sm-6">
+                        <div className="mb-4">
+                          <label htmlFor="companyState" className="form-label">
+                            Select company state
+                          </label>
                           <div className="tom-select-custom">
-                            <select className="js-select form-select tomselected" name="companyState"
-                              id="companyState" onChange={handleFormFieldsChange} value={fields['companyState'] || ''} >
-                              <option value='0'>Select Company State</option>
-                              <option value='Andaman and Nicobar Islands'>Andaman and Nicobar Islands</option>
-                              <option value='Andhra Pradesh'>Andhra Pradesh</option>
-                              <option value='Arunachal Pradesh'>Arunachal Pradesh</option>
-                              <option value='Assam'>Assam</option>
-                              <option value='Bihar'>Bihar</option>
-                              <option value='Chandigarh'>Chandigarh</option>
-                              <option value='Chhattisgarh'>Chhattisgarh</option>
-                              <option value='Dadra and Nagar Haveli'>Dadra and Nagar Haveli</option>
-                              <option value='Daman and Diu'>Daman and Diu</option>
-                              <option value='Delhi'>Delhi</option>
-                              <option value='Goa'>Goa</option>
-                              <option value='Gujarat'>Gujarat</option>
-                              <option value='Haryana'>Haryana</option>
-                              <option value='Himachal Pradesh'>Himachal Pradesh</option>
-                              <option value='Jammu and Kashmir'>Jammu and Kashmir</option>
-                              <option value='Jharkhand'>Jharkhand</option>
-                              <option value='Karnataka'>Karnataka</option>
-                              <option value='Kerala'>Kerala</option>
-                              <option value='Lakshadweep'>Lakshadweep</option>
-                              <option value='Madhya Pradesh'>Madhya Pradesh</option>
-                              <option value='Maharashtra'>Maharashtra</option>
-                              <option value='Manipur'>Manipur</option>
-                              <option value='Meghalaya'>Meghalaya</option>
-                              <option value='Mizoram'>Mizoram</option>
-                              <option value='Nagaland'>Nagaland</option>
-                              <option value='Odisha'>Odisha</option>
-                              <option value='Puducherry'>Puducherry</option>
-                              <option value='Punjab'>Punjab</option>
-                              <option value='Rajasthan'>Rajasthan</option>
-                              <option value='Sikkim'>Sikkim</option>
-                              <option value='Tamil Nadu'>Tamil Nadu</option>
-                              <option value='Telengana'>Telengana</option>
-                              <option value='Tripura'>Tripura</option>
-                              <option value='Uttar Pradesh'>Uttar Pradesh</option>
-                              <option value='Uttarakhand'>Uttarakhand</option>
-                              <option value='West Bengal'>West Bengal</option>
+                            <select
+                              className="js-select form-select tomselected"
+                              name="companyState"
+                              id="companyState"
+                              onChange={handleFormFieldsChange}
+                              value={fields["companyState"] || ""}
+                            >
+                              <option value="0">Select company state</option>
+                              <option value="Andaman and Nicobar Islands">
+                                Andaman and Nicobar Islands
+                              </option>
+                              <option value="Andhra Pradesh">
+                                Andhra Pradesh
+                              </option>
+                              <option value="Arunachal Pradesh">
+                                Arunachal Pradesh
+                              </option>
+                              <option value="Assam">Assam</option>
+                              <option value="Bihar">Bihar</option>
+                              <option value="Chandigarh">Chandigarh</option>
+                              <option value="Chhattisgarh">Chhattisgarh</option>
+                              <option value="Dadra and Nagar Haveli">
+                                Dadra and Nagar Haveli
+                              </option>
+                              <option value="Daman and Diu">
+                                Daman and Diu
+                              </option>
+                              <option value="Delhi">Delhi</option>
+                              <option value="Goa">Goa</option>
+                              <option value="Gujarat">Gujarat</option>
+                              <option value="Haryana">Haryana</option>
+                              <option value="Himachal Pradesh">
+                                Himachal Pradesh
+                              </option>
+                              <option value="Jammu and Kashmir">
+                                Jammu and Kashmir
+                              </option>
+                              <option value="Jharkhand">Jharkhand</option>
+                              <option value="Karnataka">Karnataka</option>
+                              <option value="Kerala">Kerala</option>
+                              <option value="Lakshadweep">Lakshadweep</option>
+                              <option value="Madhya Pradesh">
+                                Madhya Pradesh
+                              </option>
+                              <option value="Maharashtra">Maharashtra</option>
+                              <option value="Manipur">Manipur</option>
+                              <option value="Meghalaya">Meghalaya</option>
+                              <option value="Mizoram">Mizoram</option>
+                              <option value="Nagaland">Nagaland</option>
+                              <option value="Odisha">Odisha</option>
+                              <option value="Puducherry">Puducherry</option>
+                              <option value="Punjab">Punjab</option>
+                              <option value="Rajasthan">Rajasthan</option>
+                              <option value="Sikkim">Sikkim</option>
+                              <option value="Tamil Nadu">Tamil Nadu</option>
+                              <option value="Telengana">Telengana</option>
+                              <option value="Tripura">Tripura</option>
+                              <option value="Uttar Pradesh">
+                                Uttar Pradesh
+                              </option>
+                              <option value="Uttarakhand">Uttarakhand</option>
+                              <option value="West Bengal">West Bengal</option>
                             </select>
                           </div>
-                          <span className="mandatory-field">{errors["companyState"]}</span>
+                          <span className="mandatory-field">
+                            {errors["companyState"]}
+                          </span>
                         </div>
                       </div>
 
                       <div className="col-sm-6">
                         <div className="mb-4">
-                          <label htmlFor="companyCity" className="form-label"> Company City </label>
-                          <input type="text" className="form-control" name="companyCity" id="companyCity"
-                            placeholder="Company City" onChange={handleFormFieldsChange} value={fields['companyCity'] || ''} />
-                          <span className="mandatory-field">{errors["companyCity"]}</span>
+                          <label htmlFor="companyCity" className="form-label">
+                            {" "}
+                            Company city{" "}
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="companyCity"
+                            id="companyCity"
+                            placeholder="Company city"
+                            onChange={handleFormFieldsChange}
+                            value={fields["companyCity"] || ""}
+                          />
+                          <span className="mandatory-field">
+                            {errors["companyCity"]}
+                          </span>
                         </div>
                       </div>
 
-                      <div className="col-sm-6">
-                              <div className="mb-4">
-                                <label htmlFor="companyPincode" className="form-label"> Company Pincode <span className="mandatory-field">*</span> </label>
-                                <input type="text" className="form-control" name="companyPincode" id="companyPincode"
-                                  placeholder="Company Pincode" onChange={handleFormFieldsChange} 
-                                  onInput={companyPincodeInputHandler} maxLength={6} value={fields['companyPincode'] || ''} />
-                                <span className="mandatory-field">{errors["companyPincode"]}</span>
-                              </div>
-                            </div>
+                      
 
-                    </div>
                     <div className="text-end">
-                      <button type="submit" className="btn btn-primary btn-sm">Save Data</button>
+                      <button type="submit" className="btn btn-primary btn-sm">
+                        Save Data
+                      </button>
                     </div>
-
                   </div>
                 </form>
               </div>
@@ -464,7 +677,7 @@ const UpdateVendor = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default UpdateVendor
+export default UpdateVendor;
