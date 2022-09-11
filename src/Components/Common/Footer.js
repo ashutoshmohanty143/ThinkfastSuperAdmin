@@ -6,7 +6,7 @@ export default class Footer extends Component {
             <div className="footer">
                 <div className="row justify-content-between align-items-center">
                     <div className="col">
-                        <p className="fs-6 mb-0">&copy; Front. <span className="d-none d-sm-inline-block">2022 Htmlstream.</span></p>
+                        <p className="fs-6 mb-0">© 2022 Copyrights Protected. <span className="d-none d-sm-inline-block">Think Fast.</span></p>
                     </div>
 
                     <div className="col-auto">
