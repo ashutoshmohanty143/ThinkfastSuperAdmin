@@ -301,7 +301,7 @@ const Vendors = () => {
                   <th>State</th>
                   <th>Vendor Name</th>
                   <th>E-mail</th>
-                  <th>Phone</th>
+                  <th>Phone</th>         
                   <th>Action</th>
                 </tr>
               </thead>
@@ -316,9 +316,10 @@ const Vendors = () => {
                     <td>{item.companyName}</td>
                     <td>{item.companyWebsiteURL}</td>
                     <td>{item.companyState}</td>
-                    <td className="table-column-ps-0">
-                      {item.vendorName}
-                    </td>
+                    <td>{item.vendorName}</td>
+                    <td>{item.email}</td>
+                    <td>{item.phone}</td>
+                    <td>{item.vendorName}</td>
                     <td>{item.email}</td>
                     <td>{item.phone}</td>
                     <td>

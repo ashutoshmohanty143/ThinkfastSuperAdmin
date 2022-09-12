@@ -46,7 +46,9 @@ class Login extends Component {
     
     if (this.formValidate()) {
       let fields = this.state.fields;
-      const apiUrl = 'http://localhost:5000/api/auth/super-admin-login';
+      // const apiUrl = 'http://localhost:5000/api/auth/super-admin-login';
+      const apiUrl = 'https://thinkfast.in:5000/api/auth/super-admin-login';
+      // superadmin@gmail.com , Thinkfast##22
       const formData = {
         username: fields['email'],
         password: fields['password']

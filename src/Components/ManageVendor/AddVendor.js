@@ -207,8 +207,8 @@ const AddVendor = () => {
   const passwordInputHandler = (e) => {
     if (!CommonMethods.passwordValidator(e.target.value)) {
       setErrors({ ...errors, password: "Please enter valid password" });
-    } else {
-      setErrors({ ...errors, password: "" });
+    }  else {
+      setErrors({ ...errors, password: "" }); 
     }
   };
 
@@ -458,13 +458,14 @@ const AddVendor = () => {
                             onChange={handleFormFieldsChange}
                             onInput={passwordInputHandler}
                           />
-                          <a className="input-group-append input-group-text password-div">
+                          <a className="input-group-text password-div">
                             <i
                               className={passShown ? "bi-eye" : "bi-eye-slash"}
                               onClick={handlepassword}
                               id="passIcon"
                             ></i>
                           </a>
+                          
                           <span
                             id="password-rule"
                             data-bs-toggle="pass_tooltip"
@@ -502,13 +503,9 @@ const AddVendor = () => {
                             <i className="bi bi-check-circle-fill"></i>
                           </span>
                           <a className="input-group-append input-group-text">
-                            <i
-                              className={
-                                confrmpassShown ? "bi-eye" : "bi-eye-slash"
-                              }
-                              onClick={handleconfirmpassword}
-                              id="passIcon1"
-                            ></i>
+                            <i className={ confrmpassShown ? "bi-eye" : "bi-eye-slash" }
+                              onClick={handleconfirmpassword}>
+                            </i>
                           </a>
                         </div>
                         <span className="mandatory-field">
@@ -519,7 +516,7 @@ const AddVendor = () => {
                   </div>
 
                   <div className="row">
-                    <span className="personal-info">
+                    <span className="legal-info">
                       Vendor legal information
                     </span>
                     <div className="col-sm-6">
