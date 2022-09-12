@@ -296,12 +296,12 @@ const Vendors = () => {
                   <th >
                     SL No.
                   </th>
-                  <th>Vendor Name</th>
-                  <th>E-mail</th>
-                  <th>Phone</th>
                   <th>Company Name</th>
                   <th>Website URL</th>
                   <th>State</th>
+                  <th>Vendor Name</th>
+                  <th>E-mail</th>
+                  <th>Phone</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -313,14 +313,14 @@ const Vendors = () => {
                     <td className="table-column-pe-0">
                       {i + 1}
                     </td>
+                    <td>{item.companyName}</td>
+                    <td>{item.companyWebsiteURL}</td>
+                    <td>{item.companyState}</td>
                     <td className="table-column-ps-0">
                       {item.vendorName}
                     </td>
                     <td>{item.email}</td>
                     <td>{item.phone}</td>
-                    <td>{item.companyName}</td>
-                    <td>{item.companyWebsiteURL}</td>
-                    <td>{item.companyState}</td>
                     <td>
                       <div className="btn-group" role="group">
 

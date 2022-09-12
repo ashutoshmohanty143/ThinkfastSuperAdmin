@@ -284,6 +284,9 @@ const UpdateVendor = () => {
 
               <h1 className="page-header-title">Update vendor</h1>
             </div>
+            <div className="col-md-auto">
+              <Link className="btn btn-primary" to="/vendors">Back</Link>
+            </div>
           </div>
         </div>
 

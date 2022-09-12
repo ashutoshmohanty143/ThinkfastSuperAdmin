@@ -324,6 +324,11 @@ const AddVendor = () => {
     setConfrmpassShown(!confrmpassShown);
   };
 
+  const stateCityAutoFill = (e) => {
+    e.preventDefault();
+    
+  };
+
   //State Select Handler
   const stateSelectHandler = (e) => {};
 
