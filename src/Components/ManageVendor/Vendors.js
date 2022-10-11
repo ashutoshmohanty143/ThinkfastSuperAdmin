@@ -18,10 +18,16 @@ const Vendors = () => {
     const collectionName = "vendorusers";
     ApiServices.GetAllRecords(collectionName).then(response => {
       let newdata = response.data.data;
+      //console.log(newdata);
       setVendorLists(newdata);
     }).catch(error => {
       console.log("error", error)
     });
+  }
+
+  const handleViewRecord = (event, id) => {
+    event.preventDefault();
+    navigate('/viewvendor', { state : {v_id: id} });
   }
 
   const handleEditRecord = (event, id) => {
@@ -60,19 +66,19 @@ const Vendors = () => {
     });
   };
 
-  const handleViewRecord = (event, id) => {
-    event.preventDefault();
-    const collectionName = "vendorusers";
-    event.preventDefault();
-    ApiServices.GetSingleRecordById(id, collectionName)
-      .then((response) => {
-        let fetchdata = response.data.data;
-        setSingleFetchRecord(fetchdata);
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
-  }
+  // const handleViewRecord = (event, id) => {
+  //   event.preventDefault();
+  //   const collectionName = "vendorusers";
+  //   event.preventDefault();
+  //   ApiServices.GetSingleRecordById(id, collectionName)
+  //     .then((response) => {
+  //       let fetchdata = response.data.data;
+  //       setSingleFetchRecord(fetchdata);
+  //     })
+  //     .catch((error) => {
+  //       console.log("error", error);
+  //     });
+  // }
 
   const handleStatusChange = (e, id, status) => {
     e.preventDefault();
@@ -299,6 +305,7 @@ const Vendors = () => {
                   <th>Company Name</th>
                   <th>Website URL</th>
                   <th>State</th>
+                  <th>Vendor ID</th>
                   <th>Vendor Name</th>
                   <th>E-mail</th>
                   <th>Phone</th>         
@@ -316,16 +323,14 @@ const Vendors = () => {
                     <td>{item.companyName}</td>
                     <td>{item.companyWebsiteURL}</td>
                     <td>{item.companyState}</td>
-                    <td>{item.vendorName}</td>
-                    <td>{item.email}</td>
-                    <td>{item.phone}</td>
+                    <td>{item._id}</td>
                     <td>{item.vendorName}</td>
                     <td>{item.email}</td>
                     <td>{item.phone}</td>
                     <td>
                       <div className="btn-group" role="group">
 
-                        <a data-bs-toggle="modal" data-bs-target="#whmodal"
+                        {/* <a data-bs-toggle="modal" data-bs-target="#whmodal"
                           className="btn btn-white btn-sm" href='#'
                           onClick={(event) => handleViewRecord(event, item._id)}
                         >
@@ -334,7 +339,17 @@ const Vendors = () => {
                             {" "}
                             View
                           </i>{" "}
+                        </a> */}
+
+                        <a className="btn btn-white btn-sm" href='#'
+                            onClick={(event) => handleViewRecord(event, item._id)}>
+                            {" "}
+                            <i className="bi bi-eye-fill me-1">
+                              {" "}
+                              View
+                            </i>{" "}
                         </a>
+
                         <div className="btn-group">
                           <button
                             type="button"

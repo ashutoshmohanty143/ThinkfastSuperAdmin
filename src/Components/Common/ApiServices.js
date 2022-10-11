@@ -1,20 +1,20 @@
 import axios from 'axios';
-// const API_BASE_URL = "http://localhost:5000/api/curd/doc";
+//const API_BASE_URL = "http://localhost:5000/api/curd/doc";
 const API_BASE_URL = "https://thinkfast.in:5000/api/curd/doc";
-const token = sessionStorage.getItem("userToken");
 
 class ApiServices {
   
-    AddRecord(formData){
-        console.log(formData);
-        return axios.post(API_BASE_URL, formData, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
-        });
-    }
+  AddRecord(formData){    
+    const token = sessionStorage.getItem("userToken");
+      return axios.post(API_BASE_URL, formData, {
+          headers: {
+              'Authorization': `Bearer ${token}`
+          },
+      });
+  }
 
     GetAllRecords(collectionName){
+      const token = sessionStorage.getItem("userToken");
         return axios.get(API_BASE_URL+"/?collection="+collectionName, {
             headers: {
               'Authorization': `Bearer ${token}`
@@ -23,6 +23,7 @@ class ApiServices {
     }
 
     GetSingleRecordById(id,collectionName){
+      const token = sessionStorage.getItem("userToken");
       return axios.get(API_BASE_URL+"/"+id+"/?collection="+collectionName, {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -31,6 +32,7 @@ class ApiServices {
     }
 
     DeleteRecord(id, collectionName){
+      const token = sessionStorage.getItem("userToken");
         return axios.delete(API_BASE_URL+"/"+id+"/?collection="+collectionName, {
             headers: {
               'Authorization': `Bearer ${token}`
@@ -39,11 +41,12 @@ class ApiServices {
     }
 
     UpdateRecord(formData){
-        return axios.put(API_BASE_URL,formData, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-        });
+      const token = sessionStorage.getItem("userToken");
+      return axios.put(API_BASE_URL,formData, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+      });
     }
 
 }

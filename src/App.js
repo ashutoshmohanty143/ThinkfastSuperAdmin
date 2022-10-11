@@ -6,6 +6,7 @@ import PageNotFound from './Components/Common/PageNotFound';
 import Vendors from './Components/ManageVendor/Vendors';
 import AddVendor from './Components/ManageVendor/AddVendor';
 import UpdateVendor from './Components/ManageVendor/UpdateVendor';
+import ViewVendor from './Components/ManageVendor/ViewVendor';
 import ProtectedRoutes from './Components/Auth/ProtectedRoutes';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <Route exact path="/vendors" element={<Vendors />} />
             <Route exact path="/addvendor" element={<AddVendor />} />
             <Route exact path="/updatevendor" element={<UpdateVendor />} />
+            <Route exact path="/viewvendor" element={<ViewVendor />} />
           </Route>
           <Route exact path="*" element={<PageNotFound />} />
 
