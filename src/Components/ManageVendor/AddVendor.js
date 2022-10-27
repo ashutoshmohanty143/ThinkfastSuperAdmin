@@ -354,7 +354,7 @@ const AddVendor = () => {
               <h1 className="page-header-title">Add vendor</h1>
             </div>
             <div className="col-md-auto">
-              <Link className="btn btn-primary" to="/vendors">Back</Link>
+              <Link className="btn btn-primary" to="/vendors"><i class="bi-arrow-left"></i> Go back</Link>
             </div>
           </div>
         </div>
