@@ -13,9 +13,6 @@ const Header = () => {
         <div className="navbar-nav-wrap">
                   <a className="navbar-brand" href="" aria-label="Front">
                       <img className="navbar-brand-logo" src="./assets/svg/logos/logo.svg" alt="Logo" data-hs-theme-appearance="default" />
-                      <img className="navbar-brand-logo" src="./assets/svg/logos-light/logo.svg" alt="Logo" data-hs-theme-appearance="dark" />
-                      <img className="navbar-brand-logo-mini" src="./assets/svg/logos/logo-short.svg" alt="Logo" data-hs-theme-appearance="default" />
-                      <img className="navbar-brand-logo-mini" src="./assets/svg/logos-light/logo-short.svg" alt="Logo" data-hs-theme-appearance="dark" />
                   </a>
             <div className="navbar-nav-wrap-content-start">
                 <button type="button" className="js-navbar-vertical-aside-toggle-invoker navbar-aside-toggler">

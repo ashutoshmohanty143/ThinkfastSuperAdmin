@@ -106,9 +106,9 @@ const Vendors = () => {
     <>
       <div className="content container-fluid">
         <div className="page-header">
-          <div className="row align-items-center mb-3">
+          <div className="row align-items-center">
             <div className="col-md mb-2 mb-md-0">
-              <h1 className="page-header-title">Vendor Listing</h1>
+              <h1 className="page-header-title">Vendors</h1>
             </div>
             <div className="col-md-auto">
               <Link className="btn btn-primary" to="/addvendor"><i class="bi-person-plus-fill me-1"></i> Add vendor</Link>
