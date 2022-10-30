@@ -15,7 +15,6 @@ function App() {
     <div className="App" >
       <BrowserRouter>
         <Routes>
-
           <Route exact path="/" element={token ? <Dashboard /> : <Login />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/dashboard" element={<ProtectedRoutes Comp={Home} />} />
@@ -26,12 +25,10 @@ function App() {
             <Route exact path="/viewvendor" element={<ViewVendor />} />
           </Route>
           <Route exact path="*" element={<PageNotFound />} />
-
         </Routes>
       </BrowserRouter>
     </div>
 
   );
 }
-
 export default App;
