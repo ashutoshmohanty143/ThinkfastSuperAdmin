@@ -48,6 +48,12 @@ const AddVendor = () => {
       errors["phone"] = "Phone should be 10 digits.";
     }
 
+    //Vendor DOB
+    if (!fields["dob"]) {
+      formIsValid = false;
+      errors["dob"] = "Date of birth cannot be empty";
+    }
+
     //Vendor Password
     if (!fields["password"]) {
       formIsValid = false;
@@ -239,11 +245,11 @@ const AddVendor = () => {
   const submitForm = (event) => {
     event.preventDefault();
     if (formValidate()) {
-      console.log("first");
       let {
         vendorName,
         email,
         phone,
+        dob,
         password,
         companyName,
         companyPhone,
@@ -262,6 +268,7 @@ const AddVendor = () => {
           vendorName: vendorName,
           email: email,
           phone: phone,
+          dob: dob,
           password: password,
           companyName: companyName,
           companyPhone: companyPhone,
@@ -354,7 +361,7 @@ const AddVendor = () => {
               <h1 className="page-header-title">Add vendor</h1>
             </div>
             <div className="col-md-auto">
-              <Link className="btn btn-primary" to="/vendors"><i class="bi-arrow-left"></i> Go back</Link>
+              <Link className="btn btn-primary" to="/vendors"><i className="bi-arrow-left"></i> Go back</Link>
             </div>
           </div>
         </div>
@@ -436,6 +443,28 @@ const AddVendor = () => {
                         </div>
                         <span className="mandatory-field">
                           {errors["phone"]}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="col-sm-6">
+                      <div className="mb-4">
+                        <label htmlFor="vendorName" className="form-label">
+                          {" "}
+                          Date of birth <span className="mandatory-field">
+                            *
+                          </span>{" "}
+                        </label>
+                        <input
+                          type="date"
+                          className="form-control"
+                          name="dob"
+                          id="dob"
+                          placeholder="Date of birth"
+                          onChange={handleFormFieldsChange}
+                        />
+                        <span className="mandatory-field">
+                          {errors["dob"]}
                         </span>
                       </div>
                     </div>

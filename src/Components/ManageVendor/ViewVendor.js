@@ -25,18 +25,49 @@ const ViewWirehouse = () => {
   return (
     <>
       <div className="content container-fluid">
-          <div className="row align-items-center mb-3">
-            <div className="col-md mb-2 mb-md-0">
-              <h1 className="page-header-title">Vendor Information</h1>
-            </div>
-            <div className="col-md-auto">
-              <Link className="btn btn-primary" to="/vendors">
-                Back
-              </Link>
-            </div>
+        <div className="row align-items-center mb-3">
+          <div className="col-md mb-2 mb-md-0">
+            <h1 className="page-header-title">Vendor Information</h1>
           </div>
+          <div className="col-md-auto">
+            <Link className="btn btn-primary" to="/vendors">
+              Back
+            </Link>
+          </div>
+        </div>
 
         <div className="row">
+          <div className="col-md-6">
+            <ul className="list-group list-group-horizontal m-2">
+              <li className="list-group-item w-50">
+                <b>Vendor ID</b>
+              </li>
+              <li className="list-group-item w-50">
+                {singleFetchRecord["_id"]}
+              </li>
+            </ul>
+
+            <ul className="list-group list-group-horizontal m-2">
+              <li className="list-group-item w-50">
+                <b>Email</b>
+              </li>
+              <li className="list-group-item w-50">
+                {singleFetchRecord["email"]}
+              </li>
+            </ul>
+
+            <ul className="list-group list-group-horizontal m-2">
+              <li className="list-group-item w-50">
+                <b>Date of birth</b>
+              </li>
+              <li className="list-group-item w-50">
+                {singleFetchRecord["dob"]}
+              </li>
+            </ul>
+
+            
+          </div>
+
           <div className="col-md-6">
             <ul className="list-group list-group-horizontal m-2">
               <li className="list-group-item w-50">
@@ -46,14 +77,7 @@ const ViewWirehouse = () => {
                 {singleFetchRecord["vendorName"]}
               </li>
             </ul>
-            <ul className="list-group list-group-horizontal m-2">
-              <li className="list-group-item w-50">
-                <b>Email</b>
-              </li>
-              <li className="list-group-item w-50">
-                {singleFetchRecord["email"]}
-              </li>
-            </ul>
+
             <ul className="list-group list-group-horizontal m-2">
               <li className="list-group-item w-50">
                 <b>Phone</b>
@@ -62,24 +86,27 @@ const ViewWirehouse = () => {
                 {singleFetchRecord["phone"]}
               </li>
             </ul>
-            <ul className="list-group list-group-horizontal m-2">
+
+            
+
+            
+
+            
+            
+          </div>
+
+          <div className="mb-3 mt-3">
+            <h1 className="page-header-title">Company Information</h1>
+          </div>
+
+          <div className="col-md-6">
+
+          <ul className="list-group list-group-horizontal m-2">
               <li className="list-group-item w-50">
                 <b>Company Name</b>
               </li>
               <li className="list-group-item w-50">
                 {singleFetchRecord["companyName"]}
-              </li>
-            </ul>
-          </div>
-
-          <div className="col-md-6">
-            
-            <ul className="list-group list-group-horizontal m-2">
-              <li className="list-group-item w-50">
-                <b>Company Phone</b>
-              </li>
-              <li className="list-group-item w-50">
-                {singleFetchRecord["companyPhone"]}
               </li>
             </ul>
 
@@ -94,31 +121,35 @@ const ViewWirehouse = () => {
 
             <ul className="list-group list-group-horizontal m-2">
               <li className="list-group-item w-50">
-                <b>Company CIN</b>
-              </li>
-              <li className="list-group-item w-50">
-              {singleFetchRecord["companyCIN"]}
-              </li>
-            </ul>
-            <ul className="list-group list-group-horizontal m-2">
-              <li className="list-group-item w-50">
                 <b>Company GSTIN</b>
               </li>
               <li className="list-group-item w-50">
-              {singleFetchRecord["companyGSTIN"]}
+                {singleFetchRecord["companyGSTIN"]}
               </li>
             </ul>
+
           </div>
-          
-          <div className="col-md-12">
-            <ul className="list-group list-group-horizontal m-2">
-              <li className="list-group-item w-25">
-                <b>Vendor ID</b>
+
+          <div className="col-md-6">
+
+          <ul className="list-group list-group-horizontal m-2">
+              <li className="list-group-item w-50">
+                <b>Company Phone</b>
               </li>
-              <li className="list-group-item w-75">
-                {singleFetchRecord["_id"]}
+              <li className="list-group-item w-50">
+                {singleFetchRecord["companyPhone"]}
               </li>
             </ul>
+
+            <ul className="list-group list-group-horizontal m-2">
+              <li className="list-group-item w-50">
+                <b>Company CIN</b>
+              </li>
+              <li className="list-group-item w-50">
+                {singleFetchRecord["companyCIN"]}
+              </li>
+            </ul>
+
           </div>
 
           <div className="col-md-12">
@@ -131,6 +162,7 @@ const ViewWirehouse = () => {
               </li>
             </ul>
           </div>
+
           <div className="col-md-12">
             <ul className="list-group list-group-horizontal m-2">
               <li className="list-group-item w-25">
@@ -181,8 +213,6 @@ const ViewWirehouse = () => {
               </li>
             </ul>
           </div>
-
-
         </div>
       </div>
     </>
