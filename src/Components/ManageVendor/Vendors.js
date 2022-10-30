@@ -111,7 +111,7 @@ const Vendors = () => {
               <h1 className="page-header-title">Vendors</h1>
             </div>
             <div className="col-md-auto">
-              <Link className="btn btn-primary" to="/addvendor"><i class="bi-person-plus-fill me-1"></i> Add vendor</Link>
+              <Link className="btn btn-primary" to="/addvendor"><i className="bi-person-plus-fill me-1"></i> Add vendor</Link>
             </div>
           </div>
           <div className="js-nav-scroller hs-nav-scroller-horizontal">
