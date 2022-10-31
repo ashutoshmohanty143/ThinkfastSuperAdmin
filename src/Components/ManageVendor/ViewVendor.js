@@ -27,7 +27,7 @@ const ViewWirehouse = () => {
       <div className="content container-fluid">
         <div className="row align-items-center mb-3">
           <div className="col-md mb-2 mb-md-0">
-            <h1 className="page-header-title">Vendor Information</h1>
+            <h3 className="page-header-title">Vendor Information</h3>
           </div>
           <div className="col-md-auto">
             <Link className="btn btn-primary" to="/vendors">

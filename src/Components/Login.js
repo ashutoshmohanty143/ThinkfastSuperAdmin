@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import { WithRouter } from './Common/WithRouter';
 import '../Common.css';
+import swal from 'sweetalert';
 
 class Login extends Component {
 
@@ -49,21 +50,58 @@ class Login extends Component {
       //const apiUrl = 'http://localhost:5000/api/auth/super-admin-login';
       const apiUrl = 'https://thinkfast.in:5000/api/auth/super-admin-login';
       const formData = {
-        username: fields['email'],
-        password: fields['password']
-      }
+        username: fields["email"],
+        password: fields["password"]
+      };
       axios.post(apiUrl, formData).then(response => {
-        sessionStorage.setItem("userToken", response.data.data.accessToken);
-        sessionStorage.setItem("userName", response.data.data.username);
-        // sessionStorage.setItem("userData", JSON.stringify(response.data.data));
-        if (sessionStorage.getItem('userToken')) {
-            this.props.navigate('/dashboard');
-        } else {
-          console.log('error');
-        }
-      }).catch(error => {
-        console.log("error", error)
+        console.log(response);
         
+        // sessionStorage.setItem("userData", JSON.stringify(response.data.data));
+        // if (sessionStorage.getItem('userToken')) {
+        //     this.props.navigate('/dashboard');
+        // } else {
+        //   console.log('error');
+        // }
+
+        
+        console.log(response.status);
+        console.log(response.data.status);
+        if(response.status === 200 && response.data.status === "fail") {
+          console.log(111111)
+          swal("Opppsss!", "Invalid username or password !!!", "error").then(
+            (value) => {
+              if (value) {
+                this.props.navigate("/login");
+              }
+            }
+          );
+        } else if (response.status === 200 && response.data.status === "fail" && response.data.message === "Invalid Password"
+        ) {
+          swal("Opppsss!", "Wrong password !!!", "error").then((value) => {
+            if (value) {
+              this.props.navigate("/login");
+            }
+          });
+        } else if (response.status === 200 && response.data.status === "success" && response.data.message === ""
+        ) {
+          sessionStorage.setItem("userToken", response.data.data.accessToken);
+          sessionStorage.setItem("userName", response.data.data.username);
+          
+          this.props.navigate("/dashboard");
+        }
+
+
+
+      }).catch(error => {
+        if(error.code === 'ERR_NETWORK' && error.name === 'AxiosError') {
+          swal("Something went wrong. Please try again later.", {
+            icon: "error",
+          }).then((value) => {
+            if (value) {
+              console.log('Network Error', error);
+            }
+          });
+        }
       })          
     } else {
       return false;
