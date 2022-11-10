@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+	import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import "./Vendor.css";
@@ -46,12 +46,6 @@ const AddVendor = () => {
     } else if (fields["phone"].length != 12) {
       formIsValid = false;
       errors["phone"] = "Phone should be 10 digits.";
-    }
-
-    //Vendor DOB
-    if (!fields["dob"]) {
-      formIsValid = false;
-      errors["dob"] = "Date of birth cannot be empty";
     }
 
     //Vendor Password
@@ -357,23 +351,16 @@ const AddVendor = () => {
                   </li>
                 </ol>
               </nav>
-
               <h1 className="page-header-title">Add vendor</h1>
-            </div>
-            <div className="col-md-auto">
-              <Link className="btn btn-primary" to="/vendors"><i className="bi-arrow-left"></i> Go back</Link>
             </div>
           </div>
         </div>
-
         <div className="row">
           <div className="col-lg-12 mb-3 mb-lg-0">
             <div className="card mb-3 mb-lg-5">
               <div className="card-header">
                 <h4 className="card-header-title">Add vendor</h4>
-              </div>
-             
-
+              </div>            
               <div className="card-body">
                 <form method="post" onSubmit={submitForm}>
                   <div className="row">
@@ -452,7 +439,6 @@ const AddVendor = () => {
                         <label htmlFor="vendorName" className="form-label">
                           {" "}
                           Date of birth <span className="mandatory-field">
-                            *
                           </span>{" "}
                         </label>
                         <input
@@ -468,7 +454,6 @@ const AddVendor = () => {
                         </span>
                       </div>
                     </div>
-
                     <div className="col-sm-6">
                       <div className="mb-4">
                         <label htmlFor="password" className="form-label">
@@ -510,7 +495,6 @@ const AddVendor = () => {
                         </span>
                       </div>
                     </div>
-
                     <div className="col-sm-6">
                       <div className="mb-4">
                         <label htmlFor="confirmPassword" className="form-label">
@@ -543,7 +527,6 @@ const AddVendor = () => {
                       </div>
                     </div>
                   </div>
-
                   <div className="row">
                     <span className="legal-info">
                       Vendor legal information
@@ -568,7 +551,6 @@ const AddVendor = () => {
                         </span>
                       </div>
                     </div>
-
                     <div className="col-sm-6">
                       <div className="mb-4">
                         <label htmlFor="companyPhone" className="form-label">
@@ -592,7 +574,6 @@ const AddVendor = () => {
                         </span>
                       </div>
                     </div>
-
                     <div className="col-sm-6">
                       <div className="mb-4">
                         <label htmlFor="companyEmail" className="form-label">
@@ -613,7 +594,6 @@ const AddVendor = () => {
                         </span>
                       </div>
                     </div>
-
                     <div className="col-sm-6">
                       <div className="mb-4">
                         <label htmlFor="companyCIN" className="form-label">
@@ -633,7 +613,6 @@ const AddVendor = () => {
                         </span>
                       </div>
                     </div>
-
                     <div className="col-sm-6">
                       <div className="mb-4">
                         <label htmlFor="companyGSTIN" className="form-label">
@@ -654,7 +633,6 @@ const AddVendor = () => {
                         </span>
                       </div>
                     </div>
-
                     <div className="col-sm-6">
                       <div className="mb-4">
                         <label
@@ -678,7 +656,6 @@ const AddVendor = () => {
                         </span>
                       </div>
                     </div>
-
                     <div className="col-sm-6">
                       <div className="mb-4">
                         <label htmlFor="companyAddress" className="form-label">
@@ -698,7 +675,6 @@ const AddVendor = () => {
                         </span>
                       </div>
                     </div>
-
                     <div className="col-sm-6">
                       <div className="mb-4">
                         <label htmlFor="companyPincode" className="form-label">
@@ -722,7 +698,6 @@ const AddVendor = () => {
                         </span>
                       </div>
                     </div>
-
                     <div className="col-sm-6">
                       <div className="mb-4">
                         <label htmlFor="companyState" className="form-label">
@@ -793,7 +768,6 @@ const AddVendor = () => {
                         </span>
                       </div>
                     </div>
-
                     <div className="col-sm-6">
                       <div className="mb-4">
                         <label htmlFor="companyCity" className="form-label">
@@ -814,11 +788,10 @@ const AddVendor = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="text-end">
-                    <button type="submit" className="btn btn-primary btn-sm">
-                      Submit
-                    </button>
-                  </div>
+					<div className="card-footer d-flex justify-content-end gap-3">
+					  <Link className="btn btn-white" to="/vendors">Cancel</Link>
+					  <button className="btn btn-primary">Save changes</button>
+					</div>
                 </form>
               </div>
             </div>

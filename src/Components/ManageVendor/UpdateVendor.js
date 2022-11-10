@@ -281,22 +281,16 @@ const UpdateVendor = () => {
                   </li>
                 </ol>
               </nav>
-
               <h1 className="page-header-title">Update vendor</h1>
-            </div>
-            <div className="col-md-auto">
-              <Link className="btn btn-primary" to="/vendors">Back</Link>
             </div>
           </div>
         </div>
-
         <div className="row">
           <div className="col-lg-12 mb-3 mb-lg-0">
             <div className="card mb-3 mb-lg-5">
               <div className="card-header">
                 <h4 className="card-header-title">Update vendor information</h4>
               </div>
-
               <div className="card-body">
                 <form method="post" onSubmit={submitForm}>
                   <div className="row">
@@ -325,7 +319,6 @@ const UpdateVendor = () => {
                           </span>
                         </div>
                       </div>
-
                       <div className="col-sm-6">
                         <div className="mb-4">
                           <label htmlFor="email" className="form-label">
@@ -348,7 +341,6 @@ const UpdateVendor = () => {
                           </span>
                         </div>
                       </div>
-
                       <div className="col-sm-6">
                         <div className="mb-4">
                           <label htmlFor="phone" className="form-label">
@@ -399,7 +391,6 @@ const UpdateVendor = () => {
                           </span>
                         </div>
                       </div>
-
                       <div className="col-sm-6">
                         <div className="mb-4">
                           <label htmlFor="companyPhone" className="form-label">
@@ -424,7 +415,6 @@ const UpdateVendor = () => {
                           </span>
                         </div>
                       </div>
-
                       <div className="col-sm-6">
                         <div className="mb-4">
                           <label htmlFor="companyEmail" className="form-label">
@@ -446,7 +436,6 @@ const UpdateVendor = () => {
                           </span>
                         </div>
                       </div>
-
                       <div className="col-sm-6">
                         <div className="mb-4">
                           <label htmlFor="companyCIN" className="form-label">
@@ -467,7 +456,6 @@ const UpdateVendor = () => {
                           </span>
                         </div>
                       </div>
-
                       <div className="col-sm-6">
                         <div className="mb-4">
                           <label htmlFor="companyGSTIN" className="form-label">
@@ -489,7 +477,6 @@ const UpdateVendor = () => {
                           </span>
                         </div>
                       </div>
-
                       <div className="col-sm-6">
                         <div className="mb-4">
                           <label
@@ -514,7 +501,6 @@ const UpdateVendor = () => {
                           </span>
                         </div>
                       </div>
-
                       <div className="col-sm-6">
                         <div className="mb-4">
                           <label
@@ -538,7 +524,6 @@ const UpdateVendor = () => {
                           </span>
                         </div>
                       </div>
-
                       <div className="col-sm-6">
                         <div className="mb-4">
                           <label
@@ -567,7 +552,6 @@ const UpdateVendor = () => {
                         </div>
                       </div>
                     </div>
-
                       <div className="col-sm-6">
                         <div className="mb-4">
                           <label htmlFor="companyState" className="form-label">
@@ -643,7 +627,6 @@ const UpdateVendor = () => {
                           </span>
                         </div>
                       </div>
-
                       <div className="col-sm-6">
                         <div className="mb-4">
                           <label htmlFor="companyCity" className="form-label">
@@ -663,15 +646,11 @@ const UpdateVendor = () => {
                             {errors["companyCity"]}
                           </span>
                         </div>
-                      </div>
-
-                      
-
-                    <div className="text-end">
-                      <button type="submit" className="btn btn-primary btn-sm">
-                        Save Data
-                      </button>
-                    </div>
+                      </div>                      
+						<div className="card-footer d-flex justify-content-end gap-3">
+						  <Link className="btn btn-white" to="/vendors">Cancel</Link>
+						  <button className="btn btn-primary">Update changes</button>
+						</div>
                   </div>
                 </form>
               </div>
