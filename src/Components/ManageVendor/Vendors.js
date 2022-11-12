@@ -114,18 +114,6 @@ const Vendors = () => {
               <Link className="btn btn-primary" to="/addvendor"><i className="bi-person-plus-fill me-1"></i> Add vendor</Link>
             </div>
           </div>
-          <div className="js-nav-scroller hs-nav-scroller-horizontal">
-            <span className="hs-nav-scroller-arrow-prev" style={{ display: 'none' }}>
-              <a className="hs-nav-scroller-arrow-link" href="">
-                <i className="bi-chevron-left"></i>
-              </a>
-            </span>
-            <span className="hs-nav-scroller-arrow-next" style={{ display: 'none' }}>
-              <a className="hs-nav-scroller-arrow-link" href="">
-                <i className="bi-chevron-right"></i>
-              </a>
-            </span>
-          </div>
         </div>
         <div className="card">
           <div className="card-header card-header-content-sm-between">
@@ -154,22 +142,22 @@ const Vendors = () => {
             </div>
           </div>
           <div className="table-responsive datatable-custom">
-            <table id="datatable" className="table table-lg table-borderless table-thead-bordered table-nowrap table-align-middle card-table" data-hs-datatables-options='{
-                "columnDefs": [{
-                    "targets": [0],
-                    "orderable": false
-                  }],
-                "order": [],
-                "info": {
-                  "totalQty": "#datatableWithPaginationInfoTotalQty"
-                },
-                "search": "#datatableSearch",
-                "entries": "#datatableEntries",
-                "pageLength": 15,
-                "isResponsive": false,
-                "isShowPaging": false,
-                "pagination": "datatablePagination"
-              }'>
+          <table id="datatable" className="table table-hover table-borderless table-thead-bordered table-nowrap table-align-middle card-table" data-hs-datatables-options='{
+                   "columnDefs": [{
+                      "targets": [0],
+                      "orderable": false
+                    }],
+                   "order": [],
+                   "info": {
+                     "totalQty": "#datatableWithPaginationInfoTotalQty"
+                   },
+                   "search": "#datatableSearch",
+                   "entries": "#datatableEntries",
+                   "pageLength": 12,
+                   "isResponsive": false,
+                   "isShowPaging": false,
+                   "pagination": "datatablePagination"
+                 }'>
               <thead className="thead-light">
                 <tr>
                   <th>#</th>
@@ -190,25 +178,9 @@ const Vendors = () => {
                     <td>{item.email}<br/>{item.phone}</td>                    
                     <td>
                       <div className="btn-group" role="group">
-
-                        {/* <a data-bs-toggle="modal" data-bs-target="#whmodal"
-                          className="btn btn-white btn-sm" href='#'
-                          onClick={(event) => handleViewRecord(event, item._id)}
-                        >
+                        <a data-bs-toggle="modal" data-bs-target="#whmodal" className="btn btn-white btn-sm" href='#' onClick={(event) => handleViewRecord(event, item._id)} >
                           {" "}
-                          <i className="bi bi-eye-fill me-1">
-                            {" "}
-                            View
-                          </i>{" "}
-                        </a> */}
-						
-                        <a className="btn btn-white btn-sm" href='#'
-                            onClick={(event) => handleViewRecord(event, item._id)}>
-                            {" "}
-                            <i className="bi bi-eye-fill me-1">
-                              {" "}
-                              View
-                            </i>{" "}
+                          <i className="bi bi-eye-fill me-1"> {" "}</i>{" "} View
                         </a>
                         <div className="btn-group">
                           <button
