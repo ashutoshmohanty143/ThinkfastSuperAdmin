@@ -161,7 +161,7 @@ const Vendors = () => {
               <thead className="thead-light">
                 <tr>
                   <th>#</th>
-                  <th>Company details</th>
+                  <th>Company details test</th>
                   <th>Vendor name / State</th>
                   <th>E-mail / Phone</th>   
                   <th>Action</th>
